@@ -89,7 +89,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[hsl(0,0%,4%)] text-white overflow-x-hidden">
       {/* Now Playing Banner */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[hsl(196,100%,50%)] to-[hsl(135,100%,50%)] text-black py-2 px-4 text-center font-medium animate-pulse-neon">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[hsl(25,100%,50%)] to-[hsl(30,100%,60%)] text-black py-2 px-4 text-center font-medium animate-pulse-neon">
         <div className="flex items-center justify-center space-x-2">
           <i className="fas fa-music"></i>
           <span>{tracks[currentTrack]}</span>
@@ -103,16 +103,16 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-12 left-0 right-0 z-40 bg-[hsl(0,0%,4%)]/90 backdrop-blur-md border-b border-[hsl(196,100%,50%)]/20">
+      <nav className="fixed top-12 left-0 right-0 z-40 bg-[hsl(0,0%,4%)]/90 backdrop-blur-md border-b border-[hsl(25,100%,50%)]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="font-orbitron font-bold text-xl text-[hsl(196,100%,50%)]">DeeJoe</div>
+            <div className="font-salvar font-bold text-xl text-[hsl(25,100%,50%)]">DeeJoe</div>
             <div className="hidden md:flex space-x-8">
-              <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Home</button>
-              <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">About</button>
-              <button onClick={() => scrollToSection('experience')} className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Experience</button>
-              <button onClick={() => scrollToSection('gallery')} className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Gallery</button>
-              <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Contact</button>
+              <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Home</button>
+              <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">About</button>
+              <button onClick={() => scrollToSection('experience')} className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Experience</button>
+              <button onClick={() => scrollToSection('gallery')} className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Gallery</button>
+              <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Contact</button>
             </div>
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -125,13 +125,13 @@ export default function Home() {
         
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[hsl(0,0%,10%)]/95 backdrop-blur-md border-t border-[hsl(196,100%,50%)]/20">
+          <div className="md:hidden bg-[hsl(0,0%,10%)]/95 backdrop-blur-md border-t border-[hsl(25,100%,50%)]/20">
             <div className="px-4 py-4 space-y-4">
-              <button onClick={() => scrollToSection('home')} className="block text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Home</button>
-              <button onClick={() => scrollToSection('about')} className="block text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">About</button>
-              <button onClick={() => scrollToSection('experience')} className="block text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Experience</button>
-              <button onClick={() => scrollToSection('gallery')} className="block text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Gallery</button>
-              <button onClick={() => scrollToSection('contact')} className="block text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">Contact</button>
+              <button onClick={() => scrollToSection('home')} className="block text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Home</button>
+              <button onClick={() => scrollToSection('about')} className="block text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">About</button>
+              <button onClick={() => scrollToSection('experience')} className="block text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Experience</button>
+              <button onClick={() => scrollToSection('gallery')} className="block text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Gallery</button>
+              <button onClick={() => scrollToSection('contact')} className="block text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">Contact</button>
             </div>
           </div>
         )}
@@ -140,7 +140,7 @@ export default function Home() {
       {/* Hero Section */}
       <section id="home" ref={heroRef} className="hero-bg min-h-screen flex items-center justify-center pt-28 pb-16">
         <div className="text-center animate-fade-in">
-          <h1 className="font-orbitron font-black text-6xl md:text-8xl lg:text-9xl mb-4 neon-text animate-pulse-neon">
+          <h1 className="font-salvar font-black text-6xl md:text-8xl lg:text-9xl mb-4 neon-text animate-pulse-neon">
             DEEJOE
           </h1>
           <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 font-light">
@@ -151,13 +151,13 @@ export default function Home() {
               href="https://wa.me/96181150785" 
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-[hsl(196,100%,50%)] to-[hsl(135,100%,50%)] text-black px-8 py-4 rounded-full font-semibold text-lg hover:scale-105 transition-transform neon-glow"
+              className="bg-gradient-to-r from-[hsl(25,100%,50%)] to-[hsl(30,100%,60%)] text-black px-8 py-4 rounded-full font-semibold text-lg hover:scale-105 transition-transform neon-glow"
             >
               <i className="fab fa-whatsapp mr-2"></i>Book Me Now
             </a>
             <button 
               onClick={() => scrollToSection('experience')}
-              className="border-2 border-[hsl(196,100%,50%)] text-[hsl(196,100%,50%)] px-8 py-4 rounded-full font-semibold text-lg hover:bg-[hsl(196,100%,50%)] hover:text-black transition-colors"
+              className="border-2 border-[hsl(25,100%,50%)] text-[hsl(25,100%,50%)] px-8 py-4 rounded-full font-semibold text-lg hover:bg-[hsl(25,100%,50%)] hover:text-black transition-colors"
             >
               View Experience
             </button>
@@ -166,7 +166,7 @@ export default function Home() {
         
         {/* Floating DJ Elements */}
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-float">
-          <i className="fas fa-headphones text-4xl text-[hsl(196,100%,50%)] opacity-70"></i>
+          <i className="fas fa-headphones text-4xl text-[hsl(25,100%,50%)] opacity-70"></i>
         </div>
       </section>
 
@@ -174,7 +174,7 @@ export default function Home() {
       <section id="about" ref={aboutRef} className="py-20 px-4 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="animate-slide-up">
-            <h2 className="font-orbitron font-bold text-4xl md:text-5xl mb-8 text-[hsl(196,100%,50%)]">About DeeJoe</h2>
+            <h2 className="font-salvar font-bold text-4xl md:text-5xl mb-8 text-[hsl(25,100%,50%)]">About DeeJoe</h2>
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
               I'm DeeJoe — an open-format DJ from Lebanon, known for creating unforgettable musical journeys through powerful blends of genres. Since 2020, I've performed at top venues and elite events across the country, curating every set with precision, creativity, and a deep connection to the crowd.
             </p>
@@ -185,19 +185,19 @@ export default function Home() {
             {/* Contact Info */}
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
-                <i className="fas fa-envelope text-[hsl(196,100%,50%)] text-xl"></i>
-                <a href="mailto:deejoe.lb@gmail.com" className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">
+                <i className="fas fa-envelope text-[hsl(25,100%,50%)] text-xl"></i>
+                <a href="mailto:deejoe.lb@gmail.com" className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">
                   deejoe.lb@gmail.com
                 </a>
               </div>
               <div className="flex items-center space-x-4">
-                <i className="fab fa-whatsapp text-[hsl(196,100%,50%)] text-xl"></i>
-                <a href="https://wa.me/96181150785" className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">
+                <i className="fab fa-whatsapp text-[hsl(25,100%,50%)] text-xl"></i>
+                <a href="https://wa.me/96181150785" className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">
                   +961 81 150 785
                 </a>
               </div>
               <div className="flex items-center space-x-4">
-                <i className="fas fa-map-marker-alt text-[hsl(196,100%,50%)] text-xl"></i>
+                <i className="fas fa-map-marker-alt text-[hsl(25,100%,50%)] text-xl"></i>
                 <span className="text-gray-300">Beit El Chaar, Lebanon</span>
               </div>
             </div>
@@ -216,7 +216,7 @@ export default function Home() {
       {/* Experience Section */}
       <section id="experience" ref={experienceRef} className="py-20 px-4 bg-gradient-to-b from-transparent to-[hsl(0,0%,10%)]/50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-orbitron font-bold text-4xl md:text-5xl text-center mb-16 text-[hsl(196,100%,50%)] animate-slide-up">
+          <h2 className="font-salvar font-bold text-4xl md:text-5xl text-center mb-16 text-[hsl(25,100%,50%)] animate-slide-up">
             Experience & Venues
           </h2>
           
