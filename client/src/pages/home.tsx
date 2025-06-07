@@ -224,79 +224,79 @@ export default function Home() {
             {/* Experience Cards */}
             <div className="glass-card rounded-xl p-6 animate-slide-up">
               <div className="flex items-center mb-4">
-                <i className="fas fa-music text-[hsl(196,100%,50%)] text-2xl mr-3"></i>
-                <h3 className="font-orbitron font-bold text-xl">Lotus Venue</h3>
+                <i className="fas fa-music text-[hsl(25,100%,50%)] text-2xl mr-3"></i>
+                <h3 className="font-salvar font-bold text-xl">Lotus Venue</h3>
               </div>
               <p className="text-gray-300 mb-2">Resident DJ • 2022-Present</p>
               <p className="text-gray-400 mb-4">Jardin Des Lys, Byblos Palace</p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-[hsl(196,100%,50%)]/20 text-[hsl(196,100%,50%)] px-3 py-1 rounded-full text-sm">Deep House</span>
-                <span className="bg-[hsl(135,100%,50%)]/20 text-[hsl(135,100%,50%)] px-3 py-1 rounded-full text-sm">Bazaar Fusion</span>
+                <span className="bg-[hsl(25,100%,50%)]/20 text-[hsl(25,100%,50%)] px-3 py-1 rounded-full text-sm">Deep House</span>
+                <span className="bg-[hsl(30,100%,60%)]/20 text-[hsl(30,100%,60%)] px-3 py-1 rounded-full text-sm">Bazaar Fusion</span>
               </div>
             </div>
 
             <div className="glass-card rounded-xl p-6 animate-slide-up" style={{ animationDelay: '0.1s' }}>
               <div className="flex items-center mb-4">
-                <i className="fas fa-cocktail text-[hsl(196,100%,50%)] text-2xl mr-3"></i>
-                <h3 className="font-orbitron font-bold text-xl">Twenty Two</h3>
+                <i className="fas fa-cocktail text-[hsl(25,100%,50%)] text-2xl mr-3"></i>
+                <h3 className="font-salvar font-bold text-xl">Twenty Two</h3>
               </div>
               <p className="text-gray-300 mb-2">Guest DJ • 2021-2023</p>
               <p className="text-gray-400 mb-4">Gemmayze District</p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-[hsl(196,100%,50%)]/20 text-[hsl(196,100%,50%)] px-3 py-1 rounded-full text-sm">Tech House</span>
-                <span className="bg-[hsl(135,100%,50%)]/20 text-[hsl(135,100%,50%)] px-3 py-1 rounded-full text-sm">Progressive</span>
+                <span className="bg-[hsl(25,100%,50%)]/20 text-[hsl(25,100%,50%)] px-3 py-1 rounded-full text-sm">Tech House</span>
+                <span className="bg-[hsl(30,100%,60%)]/20 text-[hsl(30,100%,60%)] px-3 py-1 rounded-full text-sm">Progressive</span>
               </div>
             </div>
 
             <div className="glass-card rounded-xl p-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <div className="flex items-center mb-4">
-                <i className="fas fa-umbrella-beach text-[hsl(196,100%,50%)] text-2xl mr-3"></i>
-                <h3 className="font-orbitron font-bold text-xl">Azure Beach Resort</h3>
+                <i className="fas fa-umbrella-beach text-[hsl(25,100%,50%)] text-2xl mr-3"></i>
+                <h3 className="font-salvar font-bold text-xl">Azure Beach Resort</h3>
               </div>
               <p className="text-gray-300 mb-2">Summer Resident • 2022</p>
               <p className="text-gray-400 mb-4">Coastal Venue</p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-[hsl(196,100%,50%)]/20 text-[hsl(196,100%,50%)] px-3 py-1 rounded-full text-sm">Beach House</span>
-                <span className="bg-[hsl(135,100%,50%)]/20 text-[hsl(135,100%,50%)] px-3 py-1 rounded-full text-sm">Chill Out</span>
+                <span className="bg-[hsl(25,100%,50%)]/20 text-[hsl(25,100%,50%)] px-3 py-1 rounded-full text-sm">Beach House</span>
+                <span className="bg-[hsl(30,100%,60%)]/20 text-[hsl(30,100%,60%)] px-3 py-1 rounded-full text-sm">Chill Out</span>
               </div>
             </div>
 
             <div className="glass-card rounded-xl p-6 animate-slide-up" style={{ animationDelay: '0.3s' }}>
               <div className="flex items-center mb-4">
-                <i className="fas fa-water text-[hsl(196,100%,50%)] text-2xl mr-3"></i>
-                <h3 className="font-orbitron font-bold text-xl">Sea Level</h3>
+                <i className="fas fa-water text-[hsl(25,100%,50%)] text-2xl mr-3"></i>
+                <h3 className="font-salvar font-bold text-xl">Sea Level</h3>
               </div>
               <p className="text-gray-300 mb-2">Resident DJ • 2021-2022</p>
               <p className="text-gray-400 mb-4">Jounieh</p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-[hsl(196,100%,50%)]/20 text-[hsl(196,100%,50%)] px-3 py-1 rounded-full text-sm">Commercial</span>
-                <span className="bg-[hsl(135,100%,50%)]/20 text-[hsl(135,100%,50%)] px-3 py-1 rounded-full text-sm">Open Format</span>
+                <span className="bg-[hsl(25,100%,50%)]/20 text-[hsl(25,100%,50%)] px-3 py-1 rounded-full text-sm">Commercial</span>
+                <span className="bg-[hsl(30,100%,60%)]/20 text-[hsl(30,100%,60%)] px-3 py-1 rounded-full text-sm">Open Format</span>
               </div>
             </div>
 
             <div className="glass-card rounded-xl p-6 animate-slide-up" style={{ animationDelay: '0.4s' }}>
               <div className="flex items-center mb-4">
-                <i className="fas fa-hotel text-[hsl(196,100%,50%)] text-2xl mr-3"></i>
-                <h3 className="font-orbitron font-bold text-xl">Hemingway's</h3>
+                <i className="fas fa-hotel text-[hsl(25,100%,50%)] text-2xl mr-3"></i>
+                <h3 className="font-salvar font-bold text-xl">Hemingway's</h3>
               </div>
               <p className="text-gray-300 mb-2">Guest DJ • 2020-2023</p>
               <p className="text-gray-400 mb-4">Movenpick Beirut</p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-[hsl(196,100%,50%)]/20 text-[hsl(196,100%,50%)] px-3 py-1 rounded-full text-sm">Lounge</span>
-                <span className="bg-[hsl(135,100%,50%)]/20 text-[hsl(135,100%,50%)] px-3 py-1 rounded-full text-sm">Jazz Fusion</span>
+                <span className="bg-[hsl(25,100%,50%)]/20 text-[hsl(25,100%,50%)] px-3 py-1 rounded-full text-sm">Lounge</span>
+                <span className="bg-[hsl(30,100%,60%)]/20 text-[hsl(30,100%,60%)] px-3 py-1 rounded-full text-sm">Jazz Fusion</span>
               </div>
             </div>
 
             <div className="glass-card rounded-xl p-6 animate-slide-up" style={{ animationDelay: '0.5s' }}>
               <div className="flex items-center mb-4">
-                <i className="fas fa-heart text-[hsl(196,100%,50%)] text-2xl mr-3"></i>
-                <h3 className="font-orbitron font-bold text-xl">Private Events</h3>
+                <i className="fas fa-heart text-[hsl(25,100%,50%)] text-2xl mr-3"></i>
+                <h3 className="font-salvar font-bold text-xl">Private Events</h3>
               </div>
               <p className="text-gray-300 mb-2">Wedding Specialist • 2020-Present</p>
               <p className="text-gray-400 mb-4">La Chicane, Villa Srour, Movenpick</p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-[hsl(196,100%,50%)]/20 text-[hsl(196,100%,50%)] px-3 py-1 rounded-full text-sm">Wedding</span>
-                <span className="bg-[hsl(135,100%,50%)]/20 text-[hsl(135,100%,50%)] px-3 py-1 rounded-full text-sm">Corporate</span>
+                <span className="bg-[hsl(25,100%,50%)]/20 text-[hsl(25,100%,50%)] px-3 py-1 rounded-full text-sm">Wedding</span>
+                <span className="bg-[hsl(30,100%,60%)]/20 text-[hsl(30,100%,60%)] px-3 py-1 rounded-full text-sm">Corporate</span>
               </div>
             </div>
           </div>
@@ -305,7 +305,7 @@ export default function Home() {
 
       {/* Gallery Section */}
       <section id="gallery" ref={galleryRef} className="py-20 px-4 max-w-7xl mx-auto">
-        <h2 className="font-orbitron font-bold text-4xl md:text-5xl text-center mb-16 text-[hsl(196,100%,50%)] animate-slide-up">
+        <h2 className="font-salvar font-bold text-4xl md:text-5xl text-center mb-16 text-[hsl(25,100%,50%)] animate-slide-up">
           Performance Gallery
         </h2>
         
@@ -337,7 +337,7 @@ export default function Home() {
       {/* Social Media Section */}
       <section ref={socialRef} className="py-20 px-4 bg-gradient-to-r from-[hsl(0,0%,10%)] to-[hsl(0,0%,18%)]">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="font-orbitron font-bold text-4xl md:text-5xl mb-8 text-[hsl(196,100%,50%)] animate-slide-up">
+          <h2 className="font-salvar font-bold text-4xl md:text-5xl mb-8 text-[hsl(25,100%,50%)] animate-slide-up">
             Follow the Beat
           </h2>
           <p className="text-xl text-gray-300 mb-12 animate-slide-up">
@@ -356,14 +356,45 @@ export default function Home() {
             </a>
             
             <a 
-              href="#" 
+              href="https://play.anghami.com/artist/43854" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex flex-col items-center space-y-3 p-6 glass-card rounded-xl hover:neon-glow transition-all duration-300 animate-slide-up" 
               style={{ animationDelay: '0.1s' }}
             >
-              <i className="fas fa-music text-4xl text-orange-500 group-hover:scale-110 transition-transform"></i>
+              <i className="fas fa-music text-4xl text-[hsl(25,100%,50%)] group-hover:scale-110 transition-transform"></i>
               <span className="text-gray-300 font-medium">DeeJoe</span>
               <span className="text-sm text-gray-400">Anghami</span>
             </a>
+          </div>
+          
+          {/* Embedded Anghami Player */}
+          <div className="mt-12 max-w-md mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <div className="glass-card rounded-xl p-6">
+              <h3 className="font-salvar font-bold text-xl mb-4 text-[hsl(25,100%,50%)] text-center">Latest Track</h3>
+              <div className="bg-[hsl(0,0%,10%)] rounded-lg p-4 border border-[hsl(25,100%,50%)]/20">
+                <div className="flex items-center space-x-4 mb-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[hsl(25,100%,50%)] to-[hsl(30,100%,60%)] rounded-lg flex items-center justify-center">
+                    <i className="fas fa-play text-black text-xl"></i>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-white font-semibold">DeeJoe - Latest Mix</h4>
+                    <p className="text-gray-400 text-sm">Deep House • 2024</p>
+                  </div>
+                  <button className="text-[hsl(25,100%,50%)] hover:text-[hsl(30,100%,60%)] transition-colors">
+                    <i className="fas fa-external-link-alt"></i>
+                  </button>
+                </div>
+                <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
+                  <div className="bg-gradient-to-r from-[hsl(25,100%,50%)] to-[hsl(30,100%,60%)] h-2 rounded-full w-1/3"></div>
+                </div>
+                <p className="text-gray-400 text-sm text-center">
+                  <a href="https://play.anghami.com/artist/DeeJoe" target="_blank" rel="noopener noreferrer" className="text-[hsl(25,100%,50%)] hover:text-[hsl(30,100%,60%)] transition-colors">
+                    Listen on Anghami <i className="fas fa-external-link-alt ml-1"></i>
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -372,7 +403,7 @@ export default function Home() {
       <section id="contact" ref={contactRef} className="py-20 px-4 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="animate-slide-up">
-            <h2 className="font-orbitron font-bold text-4xl md:text-5xl mb-8 text-[hsl(196,100%,50%)]">
+            <h2 className="font-salvar font-bold text-4xl md:text-5xl mb-8 text-[hsl(25,100%,50%)]">
               Let's Create Magic
             </h2>
             <p className="text-xl text-gray-300 mb-8">
