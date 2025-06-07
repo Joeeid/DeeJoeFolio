@@ -67,7 +67,7 @@ export function ContactForm() {
           required 
           value={formData.name}
           onChange={(e) => handleInputChange('name', e.target.value)}
-          className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(196,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(196,100%,50%)] focus:outline-none transition-colors"
+          className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(25,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(25,100%,50%)] focus:outline-none transition-colors"
           placeholder="Your Name"
         />
       </div>
@@ -80,7 +80,7 @@ export function ContactForm() {
           required 
           value={formData.email}
           onChange={(e) => handleInputChange('email', e.target.value)}
-          className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(196,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(196,100%,50%)] focus:outline-none transition-colors"
+          className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(25,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(25,100%,50%)] focus:outline-none transition-colors"
           placeholder="your@email.com"
         />
       </div>
@@ -88,10 +88,10 @@ export function ContactForm() {
       <div>
         <Label htmlFor="eventType" className="block text-white font-medium mb-2">Event Type</Label>
         <Select value={formData.eventType} onValueChange={(value) => handleInputChange('eventType', value)}>
-          <SelectTrigger className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(196,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(196,100%,50%)] focus:outline-none transition-colors">
+          <SelectTrigger className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(25,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(25,100%,50%)] focus:outline-none transition-colors">
             <SelectValue placeholder="Select event type" />
           </SelectTrigger>
-          <SelectContent className="bg-[hsl(0,0%,18%)] border border-[hsl(196,100%,50%)]/30">
+          <SelectContent className="bg-[hsl(0,0%,18%)] border border-[hsl(25,100%,50%)]/30">
             <SelectItem value="wedding">Wedding</SelectItem>
             <SelectItem value="corporate">Corporate Event</SelectItem>
             <SelectItem value="private">Private Party</SelectItem>
@@ -110,7 +110,7 @@ export function ContactForm() {
           required 
           value={formData.message}
           onChange={(e) => handleInputChange('message', e.target.value)}
-          className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(196,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(196,100%,50%)] focus:outline-none transition-colors resize-none"
+          className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-[hsl(25,100%,50%)]/30 rounded-lg text-white focus:border-[hsl(25,100%,50%)] focus:outline-none transition-colors resize-none"
           placeholder="Tell me about your event..."
         />
       </div>
@@ -118,7 +118,7 @@ export function ContactForm() {
       <Button 
         type="submit" 
         disabled={isSubmitting}
-        className="w-full bg-gradient-to-r from-[hsl(196,100%,50%)] to-[hsl(135,100%,50%)] text-black py-4 rounded-lg font-semibold text-lg hover:scale-105 transition-transform neon-glow disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-gradient-to-r from-[hsl(25,100%,50%)] to-[hsl(30,100%,60%)] text-black py-4 rounded-lg font-semibold text-lg hover:scale-105 transition-transform neon-glow disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </Button>

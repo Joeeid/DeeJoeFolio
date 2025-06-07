@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { GalleryModal } from "@/components/gallery-modal";
 import { ContactForm } from "@/components/contact-form";
@@ -58,6 +58,10 @@ export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(180); // 3 minutes default
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const heroRef = useIntersectionObserver();
   const aboutRef = useIntersectionObserver();
@@ -412,32 +416,32 @@ export default function Home() {
             
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[hsl(196,100%,50%)]/20 rounded-full flex items-center justify-center">
-                  <i className="fab fa-whatsapp text-[hsl(196,100%,50%)] text-xl"></i>
+                <div className="w-12 h-12 bg-[hsl(25,100%,50%)]/20 rounded-full flex items-center justify-center">
+                  <i className="fab fa-whatsapp text-[hsl(25,100%,50%)] text-xl"></i>
                 </div>
                 <div>
                   <p className="text-white font-medium">WhatsApp</p>
-                  <a href="https://wa.me/96181150785" className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">
+                  <a href="https://wa.me/96181150785" className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">
                     +961 81 150 785
                   </a>
                 </div>
               </div>
               
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[hsl(196,100%,50%)]/20 rounded-full flex items-center justify-center">
-                  <i className="fas fa-envelope text-[hsl(196,100%,50%)] text-xl"></i>
+                <div className="w-12 h-12 bg-[hsl(25,100%,50%)]/20 rounded-full flex items-center justify-center">
+                  <i className="fas fa-envelope text-[hsl(25,100%,50%)] text-xl"></i>
                 </div>
                 <div>
                   <p className="text-white font-medium">Email</p>
-                  <a href="mailto:deejoe.lb@gmail.com" className="text-gray-300 hover:text-[hsl(196,100%,50%)] transition-colors">
+                  <a href="mailto:deejoe.lb@gmail.com" className="text-gray-300 hover:text-[hsl(25,100%,50%)] transition-colors">
                     deejoe.lb@gmail.com
                   </a>
                 </div>
               </div>
               
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[hsl(196,100%,50%)]/20 rounded-full flex items-center justify-center">
-                  <i className="fas fa-map-marker-alt text-[hsl(196,100%,50%)] text-xl"></i>
+                <div className="w-12 h-12 bg-[hsl(25,100%,50%)]/20 rounded-full flex items-center justify-center">
+                  <i className="fas fa-map-marker-alt text-[hsl(25,100%,50%)] text-xl"></i>
                 </div>
                 <div>
                   <p className="text-white font-medium">Location</p>
@@ -454,9 +458,9 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[hsl(0,0%,18%)] py-12 px-4 border-t border-[hsl(196,100%,50%)]/20">
+      <footer className="bg-[hsl(0,0%,18%)] py-12 px-4 border-t border-[hsl(25,100%,50%)]/20">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="font-orbitron font-bold text-2xl text-[hsl(196,100%,50%)] mb-4">DeeJoe</div>
+          <div className="font-salvar font-bold text-2xl text-[hsl(25,100%,50%)] mb-4">DeeJoe</div>
           <p className="text-gray-400 mb-4">Professional DJ • Lebanon</p>
           <p className="text-gray-500 text-sm">© 2024 DeeJoe. All rights reserved.</p>
         </div>
