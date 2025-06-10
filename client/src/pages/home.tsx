@@ -98,7 +98,7 @@ export default function Home() {
 					className="absolute inset-0 bg-cover bg-[center_top_15%] bg-no-repeat z-0"
 					style={{
 						backgroundImage:
-							'url("/public/assets/images/hero-bg.jpg")',
+							'url("/assets/images/hero-bg.jpg")',
 					}}
 				/>
 
@@ -193,7 +193,7 @@ export default function Home() {
 								className="relative rounded-lg overflow-hidden hover-card max-w-md mx-auto"
 							>
 								<img
-									src="/public/assets/images/deejoe-portrait.jpg"
+									src="/assets/images/deejoe-portrait.jpg"
 									alt="DeeJoe professional portrait"
 									className="w-full h-auto rounded-lg"
 								/>
@@ -318,7 +318,7 @@ export default function Home() {
 									animate={{ y: [0, -10, 0] }}
 								>
 									<img
-										src="/public/assets/images/deejoe-socialmedia.jpg"
+										src="/assets/images/deejoe-socialmedia.jpg"
 										alt="DeeJoe social media"
 										className="w-full h-auto rounded-lg"
 									/>
