@@ -99,6 +99,8 @@ export default function Home() {
 					style={{
 						backgroundImage: 'url("/assets/hero-bg.jpg")',
 					}}
+					role="img"
+					aria-label="DeeJoe DJ performance background"
 				/>
 
 				{/* Gradient Overlay */}
@@ -118,12 +120,12 @@ export default function Home() {
 						>
 							DEEJOE
 						</motion.h1>
-						<motion.p
+						<motion.h2
 							variants={fadeIn}
 							className="text-xl md:text-2xl text-foreground/80 mb-8"
 						>
 							Professional DJ & Music Producer
-						</motion.p>
+						</motion.h2>
 						<motion.div
 							variants={fadeIn}
 							className="flex justify-center gap-4"
@@ -193,8 +195,9 @@ export default function Home() {
 							>
 								<img
 									src="/assets/deejoe-portrait.jpg"
-									alt="DeeJoe professional portrait"
+									alt="DeeJoe professional portrait in a DJ setting"
 									className="w-full h-auto rounded-lg"
+									loading="lazy"
 								/>
 							</motion.div>
 						</div>

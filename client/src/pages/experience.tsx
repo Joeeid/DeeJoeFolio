@@ -192,8 +192,10 @@ export function ExperiencePage() {
 								>
 									<img
 										src={item.image}
-										alt={item.title}
+										alt={`${item.title} - ${item.description}`}
 										className="w-auto h-[600px] object-contain rounded-lg shadow-lg"
+										loading="lazy"
+										decoding="async"
 									/>
 								</motion.div>
 							)}
