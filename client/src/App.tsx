@@ -1,30 +1,31 @@
-import { Switch, Route } from "wouter";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "@/pages/home";
+import { ExperiencePage } from "@/pages/experience";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Home from "@/pages/home";
+import { Layout } from "@/components/layout";
 
-function Router() {
-  return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/:rest*" component={Home} />
-    </Switch>
-  );
+export default function App() {
+	return (
+		<QueryClientProvider client={queryClient}>
+			<TooltipProvider>
+				<div className="dark">
+					<Toaster />
+					<Router>
+						<Layout>
+							<Routes>
+								<Route path="/" element={<Home />} />
+								<Route
+									path="/experience"
+									element={<ExperiencePage />}
+								/>
+							</Routes>
+						</Layout>
+					</Router>
+				</div>
+			</TooltipProvider>
+		</QueryClientProvider>
+	);
 }
-
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <div className="dark">
-          <Toaster />
-          <Router />
-        </div>
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
-}
-
-export default App;

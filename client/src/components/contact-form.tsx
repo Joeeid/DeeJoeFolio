@@ -68,99 +68,107 @@ export function ContactForm() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-6">
-			<div>
-				<Label
-					htmlFor="name"
-					className="block text-white font-medium mb-2"
-				>
-					Name
-				</Label>
-				<Input
-					id="name"
-					type="text"
-					required
-					value={formData.name}
-					onChange={(e) => handleInputChange("name", e.target.value)}
-					className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-primary/30 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
-					placeholder="Your Name"
-				/>
-			</div>
+		<div className="gradient-border p-6">
+			<form onSubmit={handleSubmit} className="space-y-6">
+				<div>
+					<Label
+						htmlFor="name"
+						className="block text-foreground font-medium mb-2"
+					>
+						Name
+					</Label>
+					<Input
+						id="name"
+						type="text"
+						required
+						value={formData.name}
+						onChange={(e) =>
+							handleInputChange("name", e.target.value)
+						}
+						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+						placeholder="Your Name"
+					/>
+				</div>
 
-			<div>
-				<Label
-					htmlFor="email"
-					className="block text-white font-medium mb-2"
-				>
-					Email
-				</Label>
-				<Input
-					id="email"
-					type="email"
-					required
-					value={formData.email}
-					onChange={(e) => handleInputChange("email", e.target.value)}
-					className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-primary/30 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
-					placeholder="your@email.com"
-				/>
-			</div>
+				<div>
+					<Label
+						htmlFor="email"
+						className="block text-foreground font-medium mb-2"
+					>
+						Email
+					</Label>
+					<Input
+						id="email"
+						type="email"
+						required
+						value={formData.email}
+						onChange={(e) =>
+							handleInputChange("email", e.target.value)
+						}
+						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
+						placeholder="your@email.com"
+					/>
+				</div>
 
-			<div>
-				<Label
-					htmlFor="eventType"
-					className="block text-white font-medium mb-2"
-				>
-					Event Type
-				</Label>
-				<Select
-					value={formData.eventType}
-					onValueChange={(value) =>
-						handleInputChange("eventType", value)
-					}
-				>
-					<SelectTrigger className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-primary/30 rounded-lg text-white focus:border-primary focus:outline-none transition-colors">
-						<SelectValue placeholder="Select event type" />
-					</SelectTrigger>
-					<SelectContent className="bg-[hsl(0,0%,18%)] border border-primary/30 text-white">
-						<SelectItem value="wedding">Wedding</SelectItem>
-						<SelectItem value="corporate">
-							Corporate Event
-						</SelectItem>
-						<SelectItem value="private">Private Party</SelectItem>
-						<SelectItem value="club">Club Night</SelectItem>
-						<SelectItem value="beach">Beach Party</SelectItem>
-						<SelectItem value="other">Other</SelectItem>
-					</SelectContent>
-				</Select>
-			</div>
+				<div>
+					<Label
+						htmlFor="eventType"
+						className="block text-foreground font-medium mb-2"
+					>
+						Event Type
+					</Label>
+					<Select
+						value={formData.eventType}
+						onValueChange={(value) =>
+							handleInputChange("eventType", value)
+						}
+					>
+						<SelectTrigger className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors">
+							<SelectValue placeholder="Select event type" />
+						</SelectTrigger>
+						<SelectContent className="bg-background border border-border text-foreground">
+							<SelectItem value="wedding">Wedding</SelectItem>
+							<SelectItem value="corporate">
+								Corporate Event
+							</SelectItem>
+							<SelectItem value="private">
+								Private Party
+							</SelectItem>
+							<SelectItem value="club">Club Night</SelectItem>
+							<SelectItem value="beach">Beach Party</SelectItem>
+							<SelectItem value="other">Other</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
 
-			<div>
-				<Label
-					htmlFor="message"
-					className="block text-white font-medium mb-2"
-				>
-					Message
-				</Label>
-				<Textarea
-					id="message"
-					rows={4}
-					required
-					value={formData.message}
-					onChange={(e) =>
-						handleInputChange("message", e.target.value)
-					}
-					className="w-full px-4 py-3 bg-[hsl(0,0%,18%)] border border-primary/30 rounded-lg text-white focus:border-primary focus:outline-none transition-colors resize-none"
-					placeholder="Tell me about your event..."
-				/>
-			</div>
+				<div>
+					<Label
+						htmlFor="message"
+						className="block text-foreground font-medium mb-2"
+					>
+						Message
+					</Label>
+					<Textarea
+						id="message"
+						rows={4}
+						required
+						value={formData.message}
+						onChange={(e) =>
+							handleInputChange("message", e.target.value)
+						}
+						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors resize-none"
+						placeholder="Tell me about your event..."
+					/>
+				</div>
 
-			<Button
-				type="submit"
-				disabled={isSubmitting}
-				className="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-lg font-medium text-lg hover:scale-105 transition-transform neon-glow-secondary disabled:opacity-50 disabled:cursor-not-allowed"
-			>
-				{isSubmitting ? "Sending..." : "Send Message"}
-			</Button>
-		</form>
+				<Button
+					type="submit"
+					disabled={isSubmitting}
+					className="w-full bg-primary hover:bg-primary-dark text-primary-foreground py-4 rounded-lg font-medium text-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+				>
+					{isSubmitting ? "Sending..." : "Send Message"}
+				</Button>
+			</form>
+		</div>
 	);
 }
