@@ -393,7 +393,7 @@ export default function Home() {
 										<h3 className="text-xl font-bold mb-4 text-gradient">
 											Follow Me
 										</h3>
-										<div className="flex space-x-6">
+										<div className="flex flex-wrap gap-4">
 											<a
 												href="https://www.instagram.com/deejoe._/"
 												target="_blank"
