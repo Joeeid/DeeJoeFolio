@@ -377,10 +377,10 @@ export default function Home() {
 													/>
 												</svg>
 												<a
-													href="mailto:deejoe.lb@gmail.com"
+													href="mailto:bookings@deejoelb.com"
 													className="hover:text-primary transition-colors"
 												>
-													deejoe.lb@gmail.com
+													bookings@deejoelb.com
 												</a>
 											</p>
 										</div>
