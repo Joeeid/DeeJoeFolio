@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://deejoelb.com/sitemap.xml
+
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /private/ 
