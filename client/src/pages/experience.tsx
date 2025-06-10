@@ -74,7 +74,7 @@ const experiences: ExperienceItem[] = [
 		],
 		description:
 			"Creating unforgettable experiences at Lebanon's most prestigious venues.",
-		image: "/assets/deejoe-experience-1.JPG",
+		image: "/assets/deejoe-experience-1.jpg",
 	},
 	{
 		title: "Wedding Specialist",
@@ -108,7 +108,7 @@ const experiences: ExperienceItem[] = [
 		],
 		description:
 			"Crafting perfect soundtracks for couples' special days, from intimate gatherings to grand celebrations.",
-		image: "/assets/deejoe-experience-2.JPG",
+		image: "/assets/deejoe-experience-2.jpg",
 	},
 	{
 		title: "Private Events",
