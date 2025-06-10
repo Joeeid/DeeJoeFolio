@@ -98,7 +98,7 @@ export default function Home() {
 					className="absolute inset-0 bg-cover bg-[center_top_15%] bg-no-repeat z-0"
 					style={{
 						backgroundImage:
-							'url("/assets/images/hero-bg.jpg")',
+							'url("/public/assets/images/hero-bg.jpg")',
 					}}
 				/>
 
@@ -193,7 +193,7 @@ export default function Home() {
 								className="relative rounded-lg overflow-hidden hover-card max-w-md mx-auto"
 							>
 								<img
-									src="/assets/images/deejoe-portrait.jpg"
+									src="/public/assets/images/deejoe-portrait.jpg"
 									alt="DeeJoe professional portrait"
 									className="w-full h-auto rounded-lg"
 								/>
@@ -243,7 +243,7 @@ export default function Home() {
 			</section>
 
 			{/* Events Section */}
-			<section id="events" className="py-20 bg-background ">
+			{/* <section id="events" className="py-20 bg-background ">
 				<div className="container mx-auto px-4">
 					<motion.div
 						initial="hidden"
@@ -260,7 +260,7 @@ export default function Home() {
 						<UpcomingEvents />
 					</motion.div>
 				</div>
-			</section>
+			</section> */}
 
 			{/* Testimonials Section */}
 			<section
@@ -318,7 +318,7 @@ export default function Home() {
 									animate={{ y: [0, -10, 0] }}
 								>
 									<img
-										src="/assets/images/deejoe-socialmedia.jpg"
+										src="/public/assets/images/deejoe-socialmedia.jpg"
 										alt="DeeJoe social media"
 										className="w-full h-auto rounded-lg"
 									/>
