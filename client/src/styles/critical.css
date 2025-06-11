@@ -1,0 +1,73 @@
+@import url("https://fonts.cdnfonts.com/css/salvar");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		/* Brand Colors */
+		--primary: #ff3b3b;
+		--primary-dark: #e62e2e;
+		--secondary: #ff6b6b;
+		--accent: #ff8c8c;
+
+		/* Neutral Colors */
+		--background: #0a0a0a;
+		--foreground: #ffffff;
+		--muted: #1a1a1a;
+		--muted-foreground: #a3a3a3;
+		--border: #262626;
+	}
+
+	body {
+		@apply bg-background text-foreground antialiased;
+		background: linear-gradient(
+			45deg,
+			var(--background),
+			var(--muted),
+			var(--background)
+		);
+		background-size: 400% 400%;
+		animation: gradientBG 15s ease infinite;
+	}
+
+	.font-salvar {
+		font-family: "Salvar", sans-serif;
+	}
+
+	.font-poppins {
+		font-family: "Poppins", sans-serif;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-poppins;
+	}
+}
+
+@layer components {
+	.glass-card {
+		@apply bg-background/50 backdrop-blur-lg border border-border/50 rounded-lg;
+	}
+
+	.gradient-text {
+		@apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-dark;
+	}
+}
+
+@keyframes gradientBG {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

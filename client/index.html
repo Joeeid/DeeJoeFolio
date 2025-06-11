@@ -2,10 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1"
-		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>DeeJoe - Open Format DJ | Bringing Life to Every Beat</title>
 		<meta
 			name="description"
@@ -31,7 +28,7 @@
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta
 			name="twitter:title"
-			content="DeeJoe - Professional DJ Portfolio"
+			content="DeeJoe - Professional DJ & Music Producer"
 		/>
 		<meta
 			name="twitter:description"
@@ -64,11 +61,107 @@
 		<!-- Preconnect to external resources -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.cdnfonts.com/css/salvar" rel="stylesheet" />
+
+		<!-- Critical CSS -->
+		<link rel="preload" href="/src/styles/critical.css" as="style" />
+		<link rel="stylesheet" href="/src/styles/critical.css" />
+
+		<!-- Non-critical CSS -->
 		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			rel="preload"
+			href="https://fonts.cdnfonts.com/css/salvar"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
 		/>
+		<noscript
+			><link
+				rel="stylesheet"
+				href="https://fonts.cdnfonts.com/css/salvar"
+		/></noscript>
+
+		<link
+			rel="preload"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript
+			><link
+				rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/></noscript>
+
+		<!-- Fallback for browsers that don't support preload -->
+		<script>
+			!(function (n) {
+				"use strict";
+				n.loadCSS || (n.loadCSS = function () {});
+				var o = (loadCSS.relpreload = {});
+				if (
+					((o.support = (function () {
+						var e;
+						try {
+							e = n.document
+								.createElement("link")
+								.relList.supports("preload");
+						} catch (t) {
+							e = !1;
+						}
+						return function () {
+							return e;
+						};
+					})()),
+					(o.bindMediaToggle = function (t) {
+						var e = t.media || "all";
+						function a() {
+							t.addEventListener
+								? t.removeEventListener("load", a)
+								: t.attachEvent && t.detachEvent("onload", a),
+								t.setAttribute("onload", null),
+								(t.media = e);
+						}
+						t.addEventListener
+							? t.addEventListener("load", a)
+							: t.attachEvent && t.attachEvent("onload", a),
+							setTimeout(function () {
+								(t.rel = "stylesheet"), (t.media = "only x");
+							}),
+							setTimeout(a, 3e3);
+					}),
+					(o.poly = function () {
+						if (!o.support())
+							for (
+								var t = n.document.getElementsByTagName("link"),
+									e = 0;
+								e < t.length;
+								e++
+							) {
+								var a = t[e];
+								"preload" !== a.rel ||
+									"style" !== a.getAttribute("as") ||
+									a.getAttribute("data-loadcss") ||
+									(a.setAttribute("data-loadcss", !0),
+									o.bindMediaToggle(a));
+							}
+					}),
+					!o.support())
+				) {
+					o.poly();
+					var t = n.setInterval(o.poly, 500);
+					n.addEventListener
+						? n.addEventListener("load", function () {
+								o.poly(), n.clearInterval(t);
+						  })
+						: n.attachEvent &&
+						  n.attachEvent("onload", function () {
+								o.poly(), n.clearInterval(t);
+						  });
+				}
+				"undefined" != typeof exports
+					? (exports.loadCSS = loadCSS)
+					: (n.loadCSS = loadCSS);
+			})("undefined" != typeof global ? global : this);
+		</script>
 
 		<!-- Structured Data -->
 		<script type="application/ld+json">

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { staggerContainer, fadeIn } from "@/lib/motion";
 
 interface ExperienceItem {
 	title: string;
@@ -30,21 +31,6 @@ const experiences: ExperienceItem[] = [
 			"Providing exclusive DJ services for private events, tailored to your specific needs and preferences.",
 	},
 ];
-
-const fadeIn = {
-	hidden: { opacity: 0, y: 20 },
-	visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-};
 
 export function Residencies() {
 	return (

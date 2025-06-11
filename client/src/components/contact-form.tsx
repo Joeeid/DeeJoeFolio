@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 export function ContactForm() {
 	const [formData, setFormData] = useState({
 		name: "",
-		email: "",
+		phone: "",
 		eventType: "",
 		message: "",
 	});
@@ -27,25 +27,33 @@ export function ContactForm() {
 		setIsSubmitting(true);
 
 		try {
-			// Create WhatsApp message
-			const whatsappMessage = `Hi DeeJoe! I'm interested in booking you for my event.%0A%0AName: ${formData.name}%0AEmail: ${formData.email}%0AEvent Type: ${formData.eventType}%0AMessage: ${formData.message}`;
+			// Create email message
+			const emailSubject = `Booking Request from ${formData.name}`;
+			const emailBody = `Hi DeeJoe! I'm interested in booking you for my event.
 
-			// Open WhatsApp
+Name: ${formData.name}
+Phone: ${formData.phone}
+Event Type: ${formData.eventType}
+Message: ${formData.message}`;
+
+			// Open email client
 			window.open(
-				`https://wa.me/96170121188?text=${whatsappMessage}`,
+				`mailto:bookings@deejoelb.com?subject=${encodeURIComponent(
+					emailSubject
+				)}&body=${encodeURIComponent(emailBody)}`,
 				"_blank"
 			);
 
 			toast({
-				title: "Redirecting to WhatsApp",
+				title: "Opening Email Client",
 				description:
-					"You'll be redirected to WhatsApp to complete your booking request.",
+					"Your default email client will open with a pre-filled message.",
 			});
 
 			// Reset form
 			setFormData({
 				name: "",
-				email: "",
+				phone: "",
 				eventType: "",
 				message: "",
 			});
@@ -92,21 +100,21 @@ export function ContactForm() {
 
 				<div>
 					<Label
-						htmlFor="email"
+						htmlFor="phone"
 						className="block text-foreground font-medium mb-2"
 					>
-						Email
+						Phone Number
 					</Label>
 					<Input
-						id="email"
-						type="email"
+						id="phone"
+						type="tel"
 						required
-						value={formData.email}
+						value={formData.phone}
 						onChange={(e) =>
-							handleInputChange("email", e.target.value)
+							handleInputChange("phone", e.target.value)
 						}
 						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
-						placeholder="your@email.com"
+						placeholder="+961 XX XXX XXX"
 					/>
 				</div>
 
@@ -168,6 +176,10 @@ export function ContactForm() {
 				>
 					{isSubmitting ? "Sending..." : "Send Message"}
 				</Button>
+				<p className="text-sm text-gray-400 italic text-center">
+					Note: Expect a call from the team for further discussion
+					about your event.
+				</p>
 			</form>
 		</div>
 	);

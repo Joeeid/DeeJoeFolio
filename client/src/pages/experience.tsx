@@ -1,4 +1,8 @@
 import { motion } from "framer-motion";
+import { staggerContainer, fadeIn } from "@/lib/motion";
+import { Residencies } from "@/components/residencies";
+import { Experience } from "@/components/experience";
+import { ContactForm } from "@/components/contact-form";
 
 interface ExperienceItem {
 	title: string;
@@ -137,100 +141,162 @@ const experiences: ExperienceItem[] = [
 	},
 ];
 
-const fadeIn = {
-	hidden: { opacity: 0, y: 20 },
-	visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-};
-
 export function ExperiencePage() {
 	return (
-		<div className="min-h-screen bg-background">
-			<div className="container mx-auto px-4 py-16">
-				<motion.div
-					initial="hidden"
-					animate="visible"
-					variants={staggerContainer}
-					className="space-y-24"
-				>
-					<motion.div variants={fadeIn} className="text-center mb-12">
-						<h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient">
-							Experience
-						</h1>
-						<p className="text-foreground/80 max-w-2xl mx-auto">
-							A journey through my professional experience as a
-							DJ, from residencies to special events, showcasing
-							my versatility and expertise in creating
-							unforgettable musical experiences.
-						</p>
-					</motion.div>
+		<div className="min-h-screen bg-background text-foreground">
+			{/* Hero Section */}
+			<section
+				id="experience-hero"
+				className="min-h-[60vh] flex items-center justify-center relative overflow-hidden"
+				aria-label="Experience Hero Section"
+			>
+				{/* Background Image */}
+				<div
+					className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+					style={{
+						backgroundImage: 'url("/assets/experience-bg.jpg")',
+					}}
+					role="img"
+					aria-label="DeeJoe DJ performance background"
+				/>
 
-					{experiences.map((item, index) => (
-						<motion.div
-							key={index}
+				{/* Gradient Overlay */}
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-background z-10"
+					aria-hidden="true"
+				/>
+
+				<div className="container mx-auto px-4 py-20 relative z-20">
+					<motion.div
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={staggerContainer}
+						className="max-w-3xl mx-auto text-center"
+					>
+						<motion.h1
 							variants={fadeIn}
-							className={`flex flex-col ${
-								index % 2 === 0
-									? "lg:flex-row"
-									: "lg:flex-row-reverse"
-							} gap-8 items-center`}
+							className="text-4xl md:text-6xl mb-6 text-gradient animate-pulse-slow font-salvar"
 						>
-							{item.image && (
-								<motion.div
-									className="w-full lg:w-1/2 flex justify-center"
-									whileHover={{ scale: 1.02 }}
-									transition={{ duration: 0.2 }}
-								>
-									<img
-										src={item.image}
-										alt={`${item.title} - ${item.description}`}
-										className="w-auto h-[600px] object-contain rounded-lg shadow-lg"
-										loading="lazy"
-										decoding="async"
-									/>
-								</motion.div>
-							)}
-							<div className="w-full lg:w-1/2 space-y-6">
-								<h2 className="text-3xl font-bold text-gradient">
-									{item.title}
-								</h2>
-								<p className="text-foreground/80 text-lg">
-									{item.description}
-								</p>
-								<div className="space-y-4">
-									{item.venues.map((venue, venueIndex) => (
-										<div
-											key={venueIndex}
-											className="border-l-2 border-primary pl-4"
-										>
-											<h3 className="text-xl font-semibold text-primary">
-												{venue.name}
-											</h3>
-											<p className="text-foreground/60">
-												{venue.period}
-											</p>
-											{venue.description && (
-												<p className="text-foreground/80 mt-1">
-													{venue.description}
-												</p>
-											)}
-										</div>
-									))}
-								</div>
-							</div>
-						</motion.div>
-					))}
-				</motion.div>
-			</div>
+							EXPERIENCE
+						</motion.h1>
+						<motion.p
+							variants={fadeIn}
+							className="text-xl md:text-2xl text-foreground/80"
+						>
+							From residencies to special events, I bring energy
+							and expertise to every performance.
+						</motion.p>
+					</motion.div>
+				</div>
+			</section>
+
+			{/* Current Residencies Section */}
+			<section
+				id="residencies"
+				className="py-20 relative overflow-hidden"
+				aria-label="Current Residencies"
+			>
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-background via-[#0a0a0a] to-[#0f0f0f]"
+					aria-hidden="true"
+				/>
+				<div className="container mx-auto px-4 relative z-10">
+					<motion.div
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={staggerContainer}
+						className="text-center mb-12"
+					>
+						<motion.h2
+							variants={fadeIn}
+							className="text-3xl md:text-4xl font-bold mb-4 text-white"
+						>
+							Current Residencies
+						</motion.h2>
+						<motion.p
+							variants={fadeIn}
+							className="text-white/90 max-w-2xl mx-auto"
+						>
+							Regular venues where you can find me performing
+						</motion.p>
+					</motion.div>
+					<Residencies />
+				</div>
+			</section>
+
+			{/* Past Events Section */}
+			<section
+				id="past-events"
+				className="py-20 relative overflow-hidden"
+				aria-label="Past Events"
+			>
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-[#ff3b3b]/10 to-[#0a0a0a]"
+					aria-hidden="true"
+				/>
+				<div className="container mx-auto px-4 relative z-10">
+					<motion.div
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={staggerContainer}
+						className="text-center mb-12"
+					>
+						<motion.h2
+							variants={fadeIn}
+							className="text-3xl md:text-4xl font-bold mb-4 text-white"
+						>
+							Past Experience
+						</motion.h2>
+						<motion.p
+							variants={fadeIn}
+							className="text-white/90 max-w-2xl mx-auto"
+						>
+							Every experience is unique and memorable
+						</motion.p>
+					</motion.div>
+					<Experience />
+				</div>
+			</section>
+
+			{/* Contact Form Section */}
+			<section
+				id="contact"
+				className="py-20 relative overflow-hidden"
+				aria-label="Contact Form"
+			>
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-background via-[#0a0a0a] to-[#0f0f0f]"
+					aria-hidden="true"
+				/>
+				<div className="container mx-auto px-4 relative z-10">
+					<motion.div
+						initial="hidden"
+						whileInView="visible"
+						viewport={{ once: true }}
+						variants={staggerContainer}
+						className="text-center mb-12"
+					>
+						<motion.h2
+							variants={fadeIn}
+							className="text-3xl md:text-4xl font-bold mb-4 text-white"
+						>
+							Book Your Event
+						</motion.h2>
+						<motion.p
+							variants={fadeIn}
+							className="text-white/90 max-w-2xl mx-auto"
+						>
+							Let's create an unforgettable experience together
+						</motion.p>
+					</motion.div>
+					<div className="max-w-2xl mx-auto">
+						<ContactForm />
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 }

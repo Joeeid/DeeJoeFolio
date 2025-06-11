@@ -1,26 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ContactForm } from "@/components/contact-form";
-import { UpcomingEvents } from "@/components/upcoming-events";
+// import { UpcomingEvents } from "@/components/upcoming-events";
 import { Testimonials } from "@/components/testimonials";
 import { Residencies } from "@/components/residencies";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
-const fadeIn = {
-	hidden: { opacity: 0, y: 20 },
-	visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-	hidden: { opacity: 0 },
-	visible: {
-		opacity: 1,
-		transition: {
-			staggerChildren: 0.1,
-		},
-	},
-};
+import { staggerContainer, fadeIn } from "@/lib/motion";
 
 export default function Home() {
 	useEffect(() => {
@@ -92,19 +78,29 @@ export default function Home() {
 			<section
 				id="home"
 				className="min-h-screen flex items-center justify-center relative overflow-hidden"
+				aria-label="Hero section"
 			>
 				{/* Background Image */}
 				<div
-					className="absolute inset-0 bg-cover bg-[center_top_15%] bg-no-repeat z-0"
-					style={{
-						backgroundImage: 'url("/assets/hero-bg.jpg")',
-					}}
+					className="absolute inset-0 z-0"
 					role="img"
 					aria-label="DeeJoe DJ performance background"
-				/>
+				>
+					<img
+						src="/assets/hero-bg.jpg"
+						alt="DeeJoe DJ performance background"
+						className="w-full h-full object-cover object-[50%_15%]"
+						fetchPriority="high"
+						loading="eager"
+						decoding="sync"
+					/>
+				</div>
 
 				{/* Gradient Overlay */}
-				<div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-background z-10" />
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-background z-10"
+					aria-hidden="true"
+				/>
 
 				<div className="container mx-auto px-4 py-32 relative z-20">
 					<motion.div
@@ -132,14 +128,16 @@ export default function Home() {
 						>
 							<Button
 								onClick={scrollToContactForm}
-								className="bg-[#ff3b3b] hover:bg-[#e62e2e] text-white px-8 py-6 text-lg hover-glow"
+								className="bg-[#ff3b3b] hover:bg-[#e62e2e] text-white px-8 py-6 text-lg hover-glow border-2 border-[#ff3b3b]"
+								aria-label="Book Now - Contact Form"
 							>
 								Book Now
 							</Button>
 							<Button
 								onClick={() => scrollToSection("experience")}
 								variant="outline"
-								className="border-[#ff3b3b] text-[#ff3b3b] bg-transparent hover:bg-[#ff3b3b]/10 px-8 py-6 text-lg"
+								className="border-2 border-[#ff3b3b] text-[#ff3b3b] bg-transparent hover:bg-[#ff3b3b]/10 px-8 py-6 text-lg"
+								aria-label="View Experience Section"
 							>
 								Where to find me
 							</Button>
@@ -149,8 +147,15 @@ export default function Home() {
 			</section>
 
 			{/* About Section */}
-			<section id="about" className="py-20 relative overflow-hidden">
-				<div className="absolute inset-0 bg-gradient-to-b from-background via-[#0a0a0a] to-[#0f0f0f]" />
+			<section
+				id="about"
+				className="py-20 relative overflow-hidden"
+				aria-label="About section"
+			>
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-background via-[#0a0a0a] to-[#0f0f0f]"
+					aria-hidden="true"
+				/>
 				<div className="container mx-auto px-4 relative z-10">
 					<motion.div
 						initial="hidden"
@@ -206,8 +211,15 @@ export default function Home() {
 			</section>
 
 			{/* Experience Section */}
-			<section id="experience" className="py-20 relative overflow-hidden">
-				<div className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-[#ff3b3b]/10 to-[#0a0a0a]" />
+			<section
+				id="experience"
+				className="py-20 relative overflow-hidden"
+				aria-label="Experience section"
+			>
+				<div
+					className="absolute inset-0 bg-gradient-to-b from-[#0f0f0f] via-[#ff3b3b]/10 to-[#0a0a0a]"
+					aria-hidden="true"
+				/>
 				<div className="container mx-auto px-4 relative z-10">
 					<motion.div
 						initial="hidden"
@@ -236,6 +248,7 @@ export default function Home() {
 							<Button
 								variant="outline"
 								className="border-white text-white hover:bg-white/10"
+								aria-label="View Full Experience Page"
 							>
 								View Full Experience
 							</Button>

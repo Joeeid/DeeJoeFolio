@@ -19,6 +19,41 @@ export function log(message: string, source = "express") {
 	console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+// Cache control middleware for static assets
+function cacheControl(
+	req: express.Request,
+	res: express.Response,
+	next: express.NextFunction
+) {
+	const ext = path.extname(req.path).toLowerCase();
+
+	// Cache static assets for 1 year in production
+	if (process.env.NODE_ENV === "production") {
+		if (
+			ext.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/)
+		) {
+			res.setHeader(
+				"Cache-Control",
+				"public, max-age=31536000, immutable"
+			);
+			res.setHeader(
+				"Expires",
+				new Date(Date.now() + 31536000000).toUTCString()
+			);
+		}
+	} else {
+		// In development, disable caching for all assets
+		res.setHeader(
+			"Cache-Control",
+			"no-store, no-cache, must-revalidate, proxy-revalidate"
+		);
+		res.setHeader("Pragma", "no-cache");
+		res.setHeader("Expires", "0");
+	}
+
+	next();
+}
+
 export async function setupVite(app: Express, server: Server) {
 	const serverOptions = {
 		middlewareMode: true,
@@ -40,6 +75,7 @@ export async function setupVite(app: Express, server: Server) {
 		appType: "custom",
 	});
 
+	app.use(cacheControl);
 	app.use(vite.middlewares);
 	app.use("*", async (req, res, next) => {
 		const url = req.originalUrl;
@@ -76,7 +112,16 @@ export function serveStatic(app: Express) {
 		);
 	}
 
-	app.use(express.static(distPath));
+	// Apply cache control middleware before serving static files
+	app.use(cacheControl);
+	app.use(
+		express.static(distPath, {
+			etag: true,
+			lastModified: true,
+			maxAge: "1y",
+			immutable: true,
+		})
+	);
 
 	// fall through to index.html if the file doesn't exist
 	app.use("*", (_req, res) => {

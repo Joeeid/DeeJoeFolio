@@ -119,16 +119,24 @@ export function Layout({ children }: LayoutProps) {
 	return (
 		<div className="min-h-screen flex flex-col">
 			{/* Navigation */}
-			<nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+			<nav
+				className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border"
+				role="navigation"
+				aria-label="Main navigation"
+			>
 				<div className="container mx-auto px-4">
 					<div className="flex items-center justify-between h-16">
 						<Link
 							to="/"
 							className="text-2xl text-gradient font-salvar"
+							aria-label="DeeJoe Home"
 						>
 							DEEJOE
 						</Link>
-						<div className="hidden md:flex items-center gap-8">
+						<div
+							className="hidden md:flex items-center gap-8"
+							role="menubar"
+						>
 							{sections.map((section) => (
 								<button
 									key={section.id}
@@ -143,13 +151,21 @@ export function Layout({ children }: LayoutProps) {
 											? "text-primary"
 											: "text-foreground/60 hover:text-foreground"
 									}`}
+									aria-current={
+										isHomePage &&
+										activeSection === section.id
+											? "page"
+											: undefined
+									}
+									role="menuitem"
 								>
 									{section.label}
 								</button>
 							))}
 							<Button
 								onClick={scrollToContactForm}
-								className="bg-[#ff3b3b] hover:bg-[#e62e2e] text-white"
+								className="bg-[#ff3b3b] hover:bg-[#e62e2e] text-white font-medium"
+								aria-label="Book Now - Contact Form"
 							>
 								Book Now
 							</Button>
@@ -162,6 +178,11 @@ export function Layout({ children }: LayoutProps) {
 							animate={isMobileMenuOpen ? "open" : "closed"}
 							variants={iconVariants}
 							transition={{ duration: 0.2, ease: "easeInOut" }}
+							aria-label={
+								isMobileMenuOpen ? "Close menu" : "Open menu"
+							}
+							aria-expanded={isMobileMenuOpen}
+							aria-controls="mobile-menu"
 						>
 							<AnimatePresence mode="wait">
 								{isMobileMenuOpen ? (
@@ -196,11 +217,14 @@ export function Layout({ children }: LayoutProps) {
 				<AnimatePresence>
 					{isMobileMenuOpen && (
 						<motion.div
+							id="mobile-menu"
 							initial="closed"
 							animate="open"
 							exit="closed"
 							variants={menuVariants}
 							className="md:hidden border-b border-border overflow-hidden"
+							role="menu"
+							aria-label="Mobile navigation menu"
 						>
 							<div className="container mx-auto px-4 py-4 space-y-4">
 								{sections.map((section) => (
@@ -222,6 +246,13 @@ export function Layout({ children }: LayoutProps) {
 										}`}
 										whileHover={{ x: 4 }}
 										transition={{ duration: 0.2 }}
+										role="menuitem"
+										aria-current={
+											isHomePage &&
+											activeSection === section.id
+												? "page"
+												: undefined
+										}
 									>
 										{section.label}
 									</motion.button>
@@ -236,6 +267,7 @@ export function Layout({ children }: LayoutProps) {
 											setIsMobileMenuOpen(false);
 										}}
 										className="w-full bg-[#ff3b3b] hover:bg-[#e62e2e] text-white"
+										aria-label="Book Now - Contact Form"
 									>
 										Book Now
 									</Button>
@@ -247,7 +279,9 @@ export function Layout({ children }: LayoutProps) {
 			</nav>
 
 			{/* Main Content */}
-			<main className="flex-grow pt-16">{children}</main>
+			<main className="flex-grow pt-16" role="main">
+				{children}
+			</main>
 
 			{/* Footer */}
 			<footer className="py-8 bg-background border-t border-border">
