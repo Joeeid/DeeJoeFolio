@@ -136,14 +136,15 @@ Message: ${formData.message}`;
 						</SelectTrigger>
 						<SelectContent className="bg-background border border-border text-foreground">
 							<SelectItem value="wedding">Wedding</SelectItem>
-							<SelectItem value="corporate">
-								Corporate Event
+							<SelectItem value="engagement">
+								Engagement
 							</SelectItem>
-							<SelectItem value="private">
-								Private Party
+							<SelectItem value="bachelor">
+								Bachelor Party
 							</SelectItem>
-							<SelectItem value="club">Club Night</SelectItem>
-							<SelectItem value="beach">Beach Party</SelectItem>
+							<SelectItem value="proposal">Proposal</SelectItem>
+							<SelectItem value="prom">Prom Party</SelectItem>
+							<SelectItem value="birthday">Birthday</SelectItem>
 							<SelectItem value="other">Other</SelectItem>
 						</SelectContent>
 					</Select>
