@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>DeeJoe - Open Format DJ | Bringing Life to Every Beat</title>
+		<meta
+			name="description"
+			content="DeeJoe is a professional open-format DJ from Lebanon, specializing in weddings, club nights, and private events. Book the best DJ for your unforgettable celebration."
+		/>
+		<meta
+			property="og:title"
+			content="DeeJoe - Professional DJ Portfolio"
+		/>
+		<meta
+			property="og:description"
+			content="Experience the best DJ performances in Lebanon. DeeJoe brings life to every beat with powerful genre blends and unforgettable musical journeys."
+		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://deejoelb.com" />
+		<meta
+			property="og:image"
+			content="https://deejoelb.com/assets/og-image.jpg"
+		/>
+		<meta property="og:site_name" content="DeeJoe - Professional DJ" />
+
+		<!-- Twitter Card data -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="DeeJoe - Professional DJ & Music Producer"
+		/>
+		<meta
+			name="twitter:description"
+			content="Experience the best DJ performances in Lebanon. DeeJoe brings life to every beat with powerful genre blends and unforgettable musical journeys."
+		/>
+		<meta
+			name="twitter:image"
+			content="https://deejoelb.com/assets/twitter-image.jpg"
+		/>
+
+		<!-- Additional SEO meta tags -->
+		<meta
+			name="keywords"
+			content="DJ, Lebanon, wedding DJ, club DJ, open format, music, entertainment, events"
+		/>
+		<meta name="author" content="DeeJoe" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href="https://deejoelb.com" />
+
+		<!-- Google Verification -->
+		<meta
+			name="google-site-verification"
+			content="2-4CQ0r8M1a3wRF6NacKPA4JNHpCeUVZ6DJzjEAJtvE"
+		/>
+
+		<!-- Favicon -->
+		<link rel="icon" type="image/png" href="/assets/favicon.png" />
+		<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+
+		<!-- Preconnect to external resources -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+		<!-- Critical CSS -->
+		<link rel="preload" href="/src/styles/critical.css" as="style" />
+		<link rel="stylesheet" href="/src/styles/critical.css" />
+
+		<!-- Non-critical CSS -->
+		<link
+			rel="preload"
+			href="https://fonts.cdnfonts.com/css/salvar"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript
+			><link
+				rel="stylesheet"
+				href="https://fonts.cdnfonts.com/css/salvar"
+		/></noscript>
+
+		<link
+			rel="preload"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript
+			><link
+				rel="stylesheet"
+				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		/></noscript>
+
+		<!-- 404 Redirect Script -->
+		<script>
+			// Single Page Apps for GitHub Pages
+			// MIT License
+			// https://github.com/rafgraph/spa-github-pages
+			var pathSegmentsToKeep = 0;
+
+			var l = window.location;
+			l.replace(
+				l.protocol +
+					"//" +
+					l.hostname +
+					(l.port ? ":" + l.port : "") +
+					l.pathname
+						.split("/")
+						.slice(0, 1 + pathSegmentsToKeep)
+						.join("/") +
+					"/?/" +
+					l.pathname
+						.slice(1)
+						.split("/")
+						.slice(pathSegmentsToKeep)
+						.join("/")
+						.replace(/&/g, "~and~") +
+					(l.search
+						? "&" + l.search.slice(1).replace(/&/g, "~and~")
+						: "") +
+					l.hash
+			);
+		</script>
+
+		<!-- Fallback for browsers that don't support preload -->
+		<script>
+			!(function (n) {
+				"use strict";
+				n.loadCSS || (n.loadCSS = function () {});
+				var o = (loadCSS.relpreload = {});
+				if (
+					((o.support = (function () {
+						var e;
+						try {
+							e = n.document
+								.createElement("link")
+								.relList.supports("preload");
+						} catch (t) {
+							e = !1;
+						}
+						return function () {
+							return e;
+						};
+					})()),
+					(o.bindMediaToggle = function (t) {
+						var e = t.media || "all";
+						function a() {
+							t.addEventListener
+								? t.removeEventListener("load", a)
+								: t.attachEvent && t.detachEvent("onload", a),
+								t.setAttribute("onload", null),
+								(t.media = e);
+						}
+						t.addEventListener
+							? t.addEventListener("load", a)
+							: t.attachEvent && t.attachEvent("onload", a),
+							setTimeout(function () {
+								(t.rel = "stylesheet"), (t.media = "only x");
+							}),
+							setTimeout(a, 3e3);
+					}),
+					(o.poly = function () {
+						if (!o.support())
+							for (
+								var t = n.document.getElementsByTagName("link"),
+									e = 0;
+								e < t.length;
+								e++
+							) {
+								var a = t[e];
+								"preload" !== a.rel ||
+									"style" !== a.getAttribute("as") ||
+									a.getAttribute("data-loadcss") ||
+									(a.setAttribute("data-loadcss", !0),
+									o.bindMediaToggle(a));
+							}
+					}),
+					!o.support())
+				) {
+					o.poly();
+					var t = n.setInterval(o.poly, 500);
+					n.addEventListener
+						? n.addEventListener("load", function () {
+								o.poly(), n.clearInterval(t);
+						  })
+						: n.attachEvent &&
+						  n.attachEvent("onload", function () {
+								o.poly(), n.clearInterval(t);
+						  });
+				}
+				"undefined" != typeof exports
+					? (exports.loadCSS = loadCSS)
+					: (n.loadCSS = loadCSS);
+			})("undefined" != typeof global ? global : this);
+		</script>
+
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "DeeJoe",
+				"jobTitle": "Professional DJ",
+				"url": "https://deejoelb.com",
+				"sameAs": [
+					"https://instagram.com/deejoe._",
+					"https://soundcloud.com/deejoe-471494667"
+				],
+				"worksFor": {
+					"@type": "Organization",
+					"name": "DeeJoe Entertainment"
+				},
+				"description": "Professional open-format DJ from Lebanon, specializing in weddings, club nights, and private events."
+			}
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/main.tsx"></script>
+	</body>
+</html>
