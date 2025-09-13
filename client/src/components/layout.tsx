@@ -13,7 +13,8 @@ const sections = [
 	{ id: "about", label: "About" },
 	{ id: "experience", label: "Experience" },
 	// { id: "events", label: "Events" },
-	{ id: "testimonials", label: "Testimonials" },
+	// { id: "testimonials", label: "Testimonials" },
+	{ id: "reviews", label: "Reviews" },
 	{ id: "contact", label: "Contact" },
 ];
 

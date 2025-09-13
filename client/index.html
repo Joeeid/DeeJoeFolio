@@ -184,16 +184,40 @@
 		</script>
 	</head>
 	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-6T2T1YX836"></script>
+	<script
+		async
+		src="https://www.googletagmanager.com/gtag/js?id=G-6T2T1YX836"
+	></script>
 	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-	
-	  gtag('config', 'G-6T2T1YX836');
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag("js", new Date());
+
+		gtag("config", "G-6T2T1YX836");
 	</script>
 	<body>
 		<div id="root"></div>
 		<script type="module" src="/src/main.tsx"></script>
+		<script src="https://elfsightcdn.com/platform.js" async></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				function hideElfsightLink() {
+					const link = document.querySelector(
+						'#reviews a[href*="elfsight.com"]'
+					);
+					if (link) {
+						link.style.display = "none";
+						link.style.visibility = "hidden";
+					}
+				}
+
+				hideElfsightLink();
+
+				const interval = setInterval(hideElfsightLink, 1000);
+				setTimeout(() => clearInterval(interval), 10000); // stop after 10s
+			});
+		</script>
 	</body>
 </html>

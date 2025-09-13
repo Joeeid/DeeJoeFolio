@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ContactForm } from "@/components/contact-form";
 // import { UpcomingEvents } from "@/components/upcoming-events";
-import { Testimonials } from "@/components/testimonials";
+// import { Testimonials } from "@/components/testimonials";
 import { Residencies } from "@/components/residencies";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -278,7 +278,7 @@ export default function Home() {
 			</section> */}
 
 			{/* Testimonials Section */}
-			<section
+			{/* <section
 				id="testimonials"
 				className="py-20 relative overflow-hidden"
 			>
@@ -299,6 +299,14 @@ export default function Home() {
 						<Testimonials />
 					</motion.div>
 				</div>
+			</section> */}
+
+			<section id="reviews" className="py-20 relative overflow-hidden">
+				{/* Elfsight Google Reviews | Untitled Google Reviews */}
+				<div
+					className="elfsight-app-f9bee7ee-3da1-450f-b5dd-3973b1787059"
+					data-elfsight-app-lazy
+				></div>
 			</section>
 
 			{/* Contact Section */}
