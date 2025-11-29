@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 interface LayoutProps {
 	children: React.ReactNode;
@@ -119,6 +120,7 @@ export function Layout({ children }: LayoutProps) {
 
 	return (
 		<div className="min-h-screen flex flex-col">
+			<WhatsAppButton />
 			{/* Navigation */}
 			<nav
 				className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border"
