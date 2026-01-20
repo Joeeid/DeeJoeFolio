@@ -36,12 +36,31 @@ Phone: ${formData.phone}
 Event Type: ${formData.eventType}
 Message: ${formData.message}`;
 
+			// Track conversion and open email client
+			const gtag_report_conversion = (url?: string) => {
+				const callback = function () {
+					if (typeof url !== "undefined") {
+						window.location.href = url;
+					}
+				};
+				if (typeof (window as any).gtag !== "undefined") {
+					(window as any).gtag("event", "conversion", {
+						send_to: "AW-17872176537/CmliCLDSsekbEJmLj8pC",
+						event_callback: callback,
+					});
+				}
+				return false;
+			};
+
+			// Report conversion
+			gtag_report_conversion();
+
 			// Open email client
 			window.open(
 				`mailto:bookings@deejoelb.com?subject=${encodeURIComponent(
-					emailSubject
+					emailSubject,
 				)}&body=${encodeURIComponent(emailBody)}`,
-				"_blank"
+				"_blank",
 			);
 
 			toast({
