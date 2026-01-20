@@ -2,9 +2,32 @@ export function WhatsAppButton() {
 	const whatsappNumber = "96170121188";
 	const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
+	const handleWhatsAppClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault();
+
+		const gtag_report_conversion = (url?: string) => {
+			const callback = function () {
+				if (typeof url !== "undefined") {
+					window.location.href = url;
+				}
+			};
+			if (typeof (window as any).gtag !== "undefined") {
+				(window as any).gtag("event", "conversion", {
+					send_to: "AW-17872176537/Ga5dCMuCqOkbEJmLj8pC",
+					event_callback: callback,
+				});
+			}
+			return false;
+		};
+
+		// Report conversion and redirect
+		gtag_report_conversion(whatsappUrl);
+	};
+
 	return (
 		<a
 			href={whatsappUrl}
+			onClick={handleWhatsAppClick}
 			target="_blank"
 			rel="noopener noreferrer"
 			className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-40 flex items-center justify-center w-16 h-16 md:w-14 md:h-14 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl"
