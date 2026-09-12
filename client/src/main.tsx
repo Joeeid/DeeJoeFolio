@@ -1,23 +1,12 @@
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-// Handle 404 redirects
-(function (l) {
-	if (l.search[1] === "/") {
-		var decoded = l.search
-			.slice(1)
-			.split("&")
-			.map(function (s) {
-				return s.replace(/~and~/g, "&");
-			})
-			.join("?");
-		window.history.replaceState(
-			{},
-			"",
-			l.pathname.slice(0, -1) + decoded + l.hash
-		);
-	}
-})(window.location);
+const root = document.getElementById("root")!;
+if (root.hasChildNodes()) hydrateRoot(root, <App />);
+else createRoot(root).render(<App />);
 
-createRoot(document.getElementById("root")!).render(<App />);
+// One Google loader; no production tracking from the local preview.
+if (window.location.hostname === "www.deejoelb.com" || window.location.hostname === "deejoelb.com") {
+  import("./lib/load-analytics").then(({ loadAnalytics }) => loadAnalytics());
+}

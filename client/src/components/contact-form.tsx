@@ -1,206 +1,379 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
 	Select,
-	SelectContent,
-	SelectItem,
 	SelectTrigger,
 	SelectValue,
+	SelectContent,
+	SelectItem,
 } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { BookingDatePicker } from "@/components/booking-date-picker";
+import { site } from "@/content/site";
+import {
+	bookingLinks,
+	eventTypes,
+	localDate,
+	validateBooking,
+	type BookingEnquiry,
+	type BookingErrors,
+} from "@/lib/booking";
+import { trackIntent } from "@/lib/analytics";
 
-export function ContactForm() {
-	const [formData, setFormData] = useState({
+export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
+	const [data, setData] = useState<BookingEnquiry>({
 		name: "",
-		phone: "",
-		eventType: "",
+		eventType: initialEvent,
+		date: "",
+		undecided: false,
+		location: "",
+		venue: "",
 		message: "",
 	});
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { toast } = useToast();
-
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsSubmitting(true);
-
-		try {
-			// Create email message
-			const emailSubject = `Booking Request from ${formData.name}`;
-			const emailBody = `Hi DeeJoe! I'm interested in booking you for my event.
-
-Name: ${formData.name}
-Phone: ${formData.phone}
-Event Type: ${formData.eventType}
-Message: ${formData.message}`;
-
-			// Track conversion and open email client
-			const gtag_report_conversion = (url?: string) => {
-				const callback = function () {
-					if (typeof url !== "undefined") {
-						window.location.href = url;
-					}
-				};
-				if (typeof (window as any).gtag !== "undefined") {
-					(window as any).gtag("event", "conversion", {
-						send_to: "AW-17872176537/CmliCLDSsekbEJmLj8pC",
-						event_callback: callback,
-					});
-				}
-				return false;
-			};
-
-			// Report conversion
-			gtag_report_conversion();
-
-			// Open email client
-			window.open(
-				`mailto:bookings@deejoelb.com?subject=${encodeURIComponent(
-					emailSubject,
-				)}&body=${encodeURIComponent(emailBody)}`,
-				"_blank",
-			);
-
-			toast({
-				title: "Opening Email Client",
-				description:
-					"Your default email client will open with a pre-filled message.",
-			});
-
-			// Reset form
-			setFormData({
-				name: "",
-				phone: "",
-				eventType: "",
-				message: "",
-			});
-		} catch (error) {
-			toast({
-				title: "Error",
-				description: "Something went wrong. Please try again.",
-				variant: "destructive",
-			});
-		} finally {
-			setIsSubmitting(false);
-		}
-	};
-
-	const handleInputChange = (field: string, value: string) => {
-		setFormData((prev) => ({
-			...prev,
-			[field]: value,
+	const [errors, setErrors] = useState<BookingErrors>({});
+	const [status, setStatus] = useState("");
+	const [handoff, setHandoff] = useState<{
+		method: "whatsapp" | "email";
+		url: string;
+	} | null>(null);
+	const [today, setToday] = useState("");
+	const form = useRef<HTMLFormElement>(null);
+	useEffect(() => {
+		setToday(localDate());
+	}, []);
+	function update<K extends keyof BookingEnquiry>(
+		key: K,
+		value: BookingEnquiry[K],
+	) {
+		setData((previous) => ({ ...previous, [key]: value }));
+		setErrors((previous) => ({
+			...previous,
+			[key]: undefined,
+			...(key === "undecided" ? { date: undefined } : {}),
 		}));
-	};
-
+		setStatus("");
+		setHandoff(null);
+	}
+	function submit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		// Read the form as well as controlled state to include browser autofill.
+		const fields = new FormData(event.currentTarget);
+		const enquiry: BookingEnquiry = {
+			name: String(fields.get("name") || ""),
+			eventType: String(fields.get("eventType") || ""),
+			date: String(fields.get("date") || ""),
+			undecided: fields.has("undecided"),
+			location: String(fields.get("location") || ""),
+			venue: String(fields.get("venue") || ""),
+			message: String(fields.get("message") || ""),
+		};
+		setData(enquiry);
+		const nextErrors = validateBooking(enquiry);
+		setErrors(nextErrors);
+		if (Object.keys(nextErrors).length) {
+			const first = Object.keys(nextErrors)[0];
+			form.current
+				?.querySelector<HTMLElement>("#booking-" + first)
+				?.focus();
+			return;
+		}
+		const method =
+			(event.nativeEvent as SubmitEvent).submitter?.getAttribute(
+				"data-method",
+			) === "email"
+				? "email"
+				: "whatsapp";
+		const link = bookingLinks(enquiry)[method];
+		setHandoff({ method, url: link });
+		trackIntent("contact_intent", method);
+		// This happens directly in the user gesture, independently of analytics.
+		if (method === "whatsapp")
+			window.open(link, "_blank", "noopener,noreferrer");
+		else window.location.href = link;
+		setStatus(
+			method === "whatsapp"
+				? "Send your draft in WhatsApp to start the conversation. If it didn't open, use the link below. Your date is not reserved yet."
+				: "Send your draft in your email app to start the conversation. If it didn't open, use the link below.",
+		);
+	}
+	const errorFor = (field: keyof BookingEnquiry) =>
+		errors[field] ? (
+			<p className="field-error" id={"error-" + field}>
+				{errors[field]}
+			</p>
+		) : null;
+	const accessibility = (field: keyof BookingEnquiry) => ({
+		"aria-invalid": Boolean(errors[field]),
+		"aria-describedby": errors[field] ? "error-" + field : undefined,
+	});
 	return (
-		<div className="gradient-border p-6">
-			<form onSubmit={handleSubmit} className="space-y-6">
-				<div>
-					<Label
-						htmlFor="name"
-						className="block text-foreground font-medium mb-2"
-					>
-						Name
-					</Label>
-					<Input
-						id="name"
-						type="text"
-						required
-						value={formData.name}
-						onChange={(e) =>
-							handleInputChange("name", e.target.value)
-						}
-						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
-						placeholder="Your Name"
-					/>
+		<section id="contact" className="contact-section">
+			<div className="shell section contact-grid">
+				<div className="contact-copy">
+					<p className="eyebrow">LET'S MAKE IT HAPPEN</p>
+					<h2>
+						A great night
+						<br />
+						starts with
+						<br />
+						<span>a hello.</span>
+					</h2>
+					<p>
+						Tell me a little about your celebration.
+						<br />
+						We'll take it from there.
+					</p>
+					<div className="contact-details">
+						<a
+							href={"https://wa.me/" + site.phone}
+							target="_blank"
+							rel="noopener noreferrer"
+							onClick={() =>
+								trackIntent("contact_intent", "whatsapp_direct")
+							}
+						>
+							<MessageCircle size={19} aria-hidden="true" />
+							{site.phoneLabel}
+							<ArrowUpRight size={15} aria-hidden="true" />
+						</a>
+						<a
+							href={"mailto:" + site.email}
+							onClick={() =>
+								trackIntent("contact_intent", "email_direct")
+							}
+						>
+							<Mail size={19} aria-hidden="true" />
+							{site.email}
+						</a>
+					</div>
+					<p className="contact-location">
+						Based in Lebanon.
+						<br />
+						Destination events on request.
+					</p>
 				</div>
-
-				<div>
-					<Label
-						htmlFor="phone"
-						className="block text-foreground font-medium mb-2"
+				<div id="contact-form">
+					<form
+						ref={form}
+						className="booking-form"
+						onSubmit={submit}
+						noValidate
 					>
-						Phone Number
-					</Label>
-					<Input
-						id="phone"
-						type="tel"
-						required
-						value={formData.phone}
-						onChange={(e) =>
-							handleInputChange("phone", e.target.value)
-						}
-						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors"
-						placeholder="+961 XX XXX XXX"
-					/>
+						<div className="form-heading">
+							<h3>Your event, your way.</h3>
+							<p>
+								Required fields are marked with an asterisk (*).
+							</p>
+						</div>
+						<div className="form-grid">
+							<div className="field">
+								<Label htmlFor="booking-name">
+									Your name *
+								</Label>
+								<Input
+									id="booking-name"
+									name="name"
+									autoComplete="name"
+									maxLength={100}
+									required
+									placeholder="What should I call you?"
+									value={data.name}
+									onChange={(e) =>
+										update("name", e.target.value)
+									}
+									{...accessibility("name")}
+								/>
+								{errorFor("name")}
+							</div>
+							<div className="field">
+								<Label htmlFor="booking-eventType">
+									What are we celebrating? *
+								</Label>
+								<Select
+									name="eventType"
+									required
+									value={data.eventType}
+									onValueChange={(value) =>
+										update("eventType", value)
+									}
+								>
+									<SelectTrigger
+										id="booking-eventType"
+										className="booking-control"
+										{...accessibility("eventType")}
+									>
+										<SelectValue placeholder="Choose your event">
+											{
+												eventTypes.find(
+													([value]) =>
+														value ===
+														data.eventType,
+												)?.[1]
+											}
+										</SelectValue>
+									</SelectTrigger>
+									<SelectContent
+										className="booking-event-options"
+										position="popper"
+										collisionPadding={12}
+									>
+										{eventTypes.map(([value, label]) => (
+											<SelectItem
+												className="booking-event-option"
+												key={value}
+												value={value}
+											>
+												{label}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+								{errorFor("eventType")}
+							</div>
+							<div className="field">
+								<Label htmlFor="booking-date">
+									Event date{!data.undecided && " *"}
+								</Label>
+								<BookingDatePicker
+									minDate={today}
+									disabled={data.undecided}
+									value={data.date}
+									onChange={(value) => update("date", value)}
+									invalid={Boolean(errors.date)}
+									describedBy={
+										errors.date ? "error-date" : undefined
+									}
+								/>
+								<label className="checkbox-label">
+									<input
+										type="checkbox"
+										name="undecided"
+										checked={data.undecided}
+										onChange={(e) =>
+											update(
+												"undecided",
+												e.target.checked,
+											)
+										}
+									/>{" "}
+									Date not decided
+								</label>
+								{errorFor("date")}
+							</div>
+							<div className="field">
+								<Label htmlFor="booking-location">
+									City / country *
+								</Label>
+								<Input
+									id="booking-location"
+									name="location"
+									maxLength={150}
+									required
+									placeholder="e.g. Beirut, Lebanon"
+									value={data.location}
+									onChange={(e) =>
+										update("location", e.target.value)
+									}
+									{...accessibility("location")}
+								/>
+								{errorFor("location")}
+							</div>
+							<div className="field full-width">
+								<Label htmlFor="booking-venue">
+									Venue <span>(optional)</span>
+								</Label>
+								<Input
+									id="booking-venue"
+									name="venue"
+									maxLength={150}
+									placeholder="If you have somewhere in mind"
+									value={data.venue}
+									onChange={(e) =>
+										update("venue", e.target.value)
+									}
+								/>
+							</div>
+							<div className="field full-width">
+								<Label htmlFor="booking-message">
+									Anything else? <span>(optional)</span>
+								</Label>
+								<Textarea
+									id="booking-message"
+									name="message"
+									rows={3}
+									maxLength={1500}
+									placeholder="Your music, your people, the vibe you're after…"
+									value={data.message}
+									onChange={(e) =>
+										update("message", e.target.value)
+									}
+								/>
+							</div>
+						</div>
+						<Button
+							type="submit"
+							data-method="whatsapp"
+							className="button-primary form-submit"
+						>
+							Continue on WhatsApp{" "}
+							<ArrowUpRight aria-hidden="true" />
+						</Button>
+						<p className="handoff-note">
+							Opens a message draft. You send it in WhatsApp.
+							<br />
+							Availability and booking are confirmed in
+							conversation.
+						</p>
+						<button
+							type="submit"
+							data-method="email"
+							className="email-alternative"
+						>
+							<Mail size={16} aria-hidden="true" /> Prefer email?
+							Prepare an email instead
+						</button>
+						{status && (
+							<p className="form-status" role="status">
+								{status}
+							</p>
+						)}
+						{handoff && (
+							<a
+								className="text-link provider-link"
+								href={handoff.url}
+								target={
+									handoff.method === "whatsapp"
+										? "_blank"
+										: undefined
+								}
+								rel="noopener noreferrer"
+							>
+								Open{" "}
+								{handoff.method === "whatsapp"
+									? "WhatsApp"
+									: "email"}{" "}
+								draft <ArrowUpRight aria-hidden="true" />
+							</a>
+						)}
+						{Object.keys(errors).some(
+							(key) => errors[key as keyof BookingErrors],
+						) && (
+							<p className="field-error" role="alert">
+								Please check the highlighted fields.
+							</p>
+						)}
+						<noscript>
+							<p>
+								Please use the WhatsApp or email links beside
+								this form to discuss your event.
+							</p>
+						</noscript>
+					</form>
 				</div>
-
-				<div>
-					<Label
-						htmlFor="eventType"
-						className="block text-foreground font-medium mb-2"
-					>
-						Event Type
-					</Label>
-					<Select
-						value={formData.eventType}
-						onValueChange={(value) =>
-							handleInputChange("eventType", value)
-						}
-					>
-						<SelectTrigger className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors">
-							<SelectValue placeholder="Select event type" />
-						</SelectTrigger>
-						<SelectContent className="bg-background border border-border text-foreground">
-							<SelectItem value="wedding">Wedding</SelectItem>
-							<SelectItem value="engagement">
-								Engagement
-							</SelectItem>
-							<SelectItem value="bachelor">
-								Bachelor Party
-							</SelectItem>
-							<SelectItem value="proposal">Proposal</SelectItem>
-							<SelectItem value="prom">Prom Party</SelectItem>
-							<SelectItem value="birthday">Birthday</SelectItem>
-							<SelectItem value="other">Other</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
-
-				<div>
-					<Label
-						htmlFor="message"
-						className="block text-foreground font-medium mb-2"
-					>
-						Message
-					</Label>
-					<Textarea
-						id="message"
-						rows={4}
-						required
-						value={formData.message}
-						onChange={(e) =>
-							handleInputChange("message", e.target.value)
-						}
-						className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors resize-none"
-						placeholder="Tell me about your event..."
-					/>
-				</div>
-
-				<Button
-					type="submit"
-					disabled={isSubmitting}
-					className="w-full bg-primary hover:bg-primary-dark text-primary-foreground py-4 rounded-lg font-medium text-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-				>
-					{isSubmitting ? "Sending..." : "Send Message"}
-				</Button>
-				<p className="text-sm text-gray-400 italic text-center">
-					Note: Expect a call from the team for further discussion
-					about your event.
-				</p>
-			</form>
-		</div>
+			</div>
+		</section>
 	);
 }
