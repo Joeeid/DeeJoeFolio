@@ -16,11 +16,16 @@ export function renderHead(page: PageMeta) {
     '<meta property="og:type" content="website">',
     `<meta property="og:url" content="${url}">`,
     '<meta property="og:site_name" content="DeeJoe">',
-    '<meta property="og:image" content="https://deejoelb.com/assets/og-image.jpg">',
+    `<meta property="og:image" content="${site.origin}/assets/og-image.jpg">`,
+    '<meta property="og:image:width" content="1200">',
+    '<meta property="og:image:height" content="630">',
+    '<meta property="og:image:alt" content="DeeJoe — DJ for weddings and private parties in Lebanon">',
+    '<meta property="og:locale" content="en_US">',
     '<meta name="twitter:card" content="summary_large_image">',
     `<meta name="twitter:title" content="${title}">`,
     `<meta name="twitter:description" content="${description}">`,
-    '<meta name="twitter:image" content="https://deejoelb.com/assets/twitter-image.jpg">',
+    `<meta name="twitter:image" content="${site.origin}/assets/twitter-image.jpg">`,
+    '<meta name="twitter:image:alt" content="DeeJoe — DJ for weddings and private parties in Lebanon">',
     ...(!page.noindex ? [`<script id="structured-data" type="application/ld+json">${JSON.stringify(structuredData(page)).replace(/</g, "\\u003c")}</script>`] : []),
   ].join("\n");
 }
@@ -36,10 +41,26 @@ export function updateMetadata(page: PageMeta) {
     'meta[name="twitter:description"]': page.description,
   };
   for (const [selector, content] of Object.entries(values)) document.querySelector(selector)?.setAttribute("content", content);
-  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
   if (page.noindex) canonical?.remove();
-  else if (canonical) canonical.href = site.origin + page.path;
-  const data = document.getElementById("structured-data");
+  else {
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = site.origin + page.path;
+  }
+  let data = document.getElementById("structured-data");
   if (page.noindex) data?.remove();
-  else if (data) data.textContent = JSON.stringify(structuredData(page));
+  else {
+    if (!data) {
+      const script = document.createElement("script");
+      script.id = "structured-data";
+      script.type = "application/ld+json";
+      document.head.appendChild(script);
+      data = script;
+    }
+    data.textContent = JSON.stringify(structuredData(page)).replace(/</g, "\\u003c");
+  }
 }

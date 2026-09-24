@@ -16,7 +16,7 @@ export function About() {
 						Bring it together.
 					</h2>
 				</div>
-				<a href="/experience" className="text-link">
+				<a href="/experience/" className="text-link">
 					Explore my experience <ArrowUpRight aria-hidden="true" />
 				</a>
 			</div>

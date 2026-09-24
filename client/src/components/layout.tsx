@@ -15,7 +15,7 @@ import {
 const navigation = [
 	{ href: "/#services", label: "Services" },
 	{ href: "/#music", label: "Music" },
-	{ href: "/experience", label: "Experience" },
+	{ href: "/experience/", label: "Experience" },
 	{ href: "/#reviews", label: "Reviews" },
 ];
 
