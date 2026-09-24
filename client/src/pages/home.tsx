@@ -37,7 +37,7 @@ export function Services() {
 							And the dance floor you won't want to leave.
 						</p>
 						<span className="text-link">
-							Explore weddings <ArrowUpRight aria-hidden="true" />
+							Wedding DJ services <ArrowUpRight aria-hidden="true" />
 						</span>
 					</div>
 				</a>
@@ -51,7 +51,7 @@ export function Services() {
 							Good company deserves good music.
 						</p>
 						<span className="text-link">
-							Explore private events{" "}
+							Private party DJ services{" "}
 							<ArrowUpRight aria-hidden="true" />
 						</span>
 					</div>
@@ -86,8 +86,8 @@ export default function Home() {
 						My <span>playlist.</span>
 					</h1>
 					<p className="hero-intro">
-						I'm DeeJoe. Bringing people together through music, from
-						wedding celebrations to nights that turn into mornings.
+						I'm DeeJoe, an open-format DJ in Lebanon. Bringing people
+						together for weddings, private parties, and nights that turn into mornings.
 					</p>
 					<div className="hero-actions">
 						<Button asChild className="button-primary">

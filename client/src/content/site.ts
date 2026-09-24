@@ -47,6 +47,7 @@ export interface Service {
 	path: string;
 	eventType: string;
 	label: string;
+	serviceName: string;
 	eyebrow: string;
 	headline: string;
 	intro: string;
@@ -61,9 +62,10 @@ export const services: Service[] = [
 		path: "/weddings/",
 		eventType: "wedding",
 		label: "Weddings",
-		eyebrow: "THE WEDDING SOUNDTRACK",
+		serviceName: "Wedding DJ in Lebanon",
+		eyebrow: "WEDDING DJ · LEBANON",
 		headline: "A day that's yours. A night to remember.",
-		intro: "Your favourite people, your favourite music. Open-format wedding DJ sets that bring generations together, from intimate celebrations to a full dance floor.",
+		intro: "Your favourite people, your favourite music. I'm DeeJoe, a wedding DJ in Lebanon bringing generations together through Arabic favourites and international tracks, from intimate celebrations to a full dance floor.",
 		image: "deejoe-experience-2",
 		imageAlt: "DeeJoe wearing headphones under red and blue lighting",
 		details: [
@@ -104,9 +106,10 @@ export const services: Service[] = [
 		path: "/private-events/",
 		eventType: "private",
 		label: "Private celebrations",
-		eyebrow: "A REASON TO CELEBRATE",
+		serviceName: "Private Party & Event DJ in Lebanon",
+		eyebrow: "PRIVATE PARTY DJ · LEBANON",
 		headline: "Good people. Great music. Your party.",
-		intro: "An engagement, a birthday, or a night with your favourite people. Let's find the sound that makes your celebration feel like you.",
+		intro: "An engagement, a birthday, or a night with your favourite people. As your private party DJ in Lebanon, I'll bring Arabic favourites and international tracks together for a celebration that feels like you.",
 		image: "deejoe-experience-1",
 		imageAlt: "DeeJoe mixing music at the decks in red sunglasses",
 		details: [
@@ -129,7 +132,13 @@ export const services: Service[] = [
 			"Bachelor parties",
 			"Proposals & proms",
 		],
-		faqs: [faqs[0], faqs[1], faqs[2], faqs[4]],
+		faqs: [
+			{
+				question: "What should we share when booking a DJ for a private event?",
+				answer: "Start with your occasion, date, location in Lebanon, and the music you enjoy. Share your venue if you've chosen one, along with must-play songs and anything you'd rather skip. We'll discuss availability and a quote around your plans.",
+			},
+			faqs[0], faqs[1], faqs[2], faqs[4],
+		],
 	},
 ];
 
@@ -285,21 +294,21 @@ export interface PageMeta {
 export const pages: PageMeta[] = [
 	{
 		path: "/",
-		title: "DeeJoe | Wedding & Private Event DJ in Lebanon",
+		title: "DJ in Lebanon for Weddings & Private Parties | DeeJoe",
 		description:
-			"Meet DeeJoe, an open-format DJ in Lebanon for weddings, engagements and private celebrations. Listen on Anghami and discuss your event. Destinations on request.",
+			"Meet DeeJoe, an open-format DJ in Lebanon for weddings and private parties. Arabic favourites, international tracks, and a soundtrack shaped around your crowd.",
 	},
 	{
 		path: "/weddings/",
 		title: "Wedding DJ in Lebanon | DeeJoe",
 		description:
-			"A wedding soundtrack that feels like you. DeeJoe brings open-format music and Lebanese venue experience to your celebration. Destination weddings on request.",
+			"Looking for a wedding DJ in Lebanon? DeeJoe brings Arabic favourites, international music and Lebanese venue experience to a celebration that feels like you.",
 	},
 	{
 		path: "/private-events/",
-		title: "Private Party & Engagement DJ in Lebanon | DeeJoe",
+		title: "Private Party DJ in Lebanon | Private Events | DeeJoe",
 		description:
-			"Book DeeJoe for engagements, birthdays, bachelor parties, proms and private celebrations in Lebanon. Share your event details and musical tastes on WhatsApp.",
+			"DeeJoe is your private event DJ in Lebanon for birthdays, engagements and bachelor parties. Arabic and international music, shaped around your guests. Enquire.",
 	},
 	{
 		path: "/experience/",
@@ -327,6 +336,8 @@ export function structuredData(page: PageMeta) {
 		name: site.name,
 		jobTitle: "Open-format DJ",
 		url: site.origin + "/",
+		telephone: "+" + site.phone,
+		email: site.email,
 		image: site.origin + "/assets/deejoe-portrait.jpg",
 		description:
 			"Lebanon-based DJ for weddings, engagements and private celebrations. Destination events on request.",
@@ -339,6 +350,7 @@ export function structuredData(page: PageMeta) {
 		name: page.title,
 		description: page.description,
 		inLanguage: "en",
+		isPartOf: { "@id": site.origin + "/#website" },
 		about: { "@id": person["@id"] },
 	};
 	const service = services.find((service) => service.path === page.path);
@@ -346,17 +358,40 @@ export function structuredData(page: PageMeta) {
 		"@context": "https://schema.org",
 		"@graph": [
 			person,
-			webpage,
+			{
+				"@type": "WebSite",
+				"@id": site.origin + "/#website",
+				url: site.origin + "/",
+				name: site.name,
+				inLanguage: "en",
+				publisher: { "@id": person["@id"] },
+			},
+			{
+				...webpage,
+				...(service ? {
+					mainEntity: { "@id": site.origin + service.path + "#service" },
+					breadcrumb: { "@id": site.origin + service.path + "#breadcrumb" },
+				} : {}),
+			},
 			...(service
 				? [
 						{
 							"@type": "Service",
-							name: service.label + " DJ in Lebanon",
-							serviceType: service.label + " DJ",
+							"@id": site.origin + service.path + "#service",
+							name: service.serviceName,
+							serviceType: service.eventType === "wedding" ? "Wedding DJ" : "Private party and event DJ",
 							provider: { "@id": person["@id"] },
 							areaServed: { "@type": "Country", name: "Lebanon" },
 							url: site.origin + service.path,
 							description: service.intro,
+						},
+						{
+							"@type": "BreadcrumbList",
+							"@id": site.origin + service.path + "#breadcrumb",
+							itemListElement: [
+								{ "@type": "ListItem", position: 1, name: "Home", item: site.origin + "/" },
+								{ "@type": "ListItem", position: 2, name: service.label, item: site.origin + service.path },
+							],
 						},
 					]
 				: []),
