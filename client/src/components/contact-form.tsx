@@ -1,3 +1,4 @@
+import { uiText } from "@/content/ui-ar";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import {
 	SelectItem,
 } from "@/components/ui/select";
 import { BookingDatePicker } from "@/components/booking-date-picker";
-import { site } from "@/content/site";
+import { site, type Language } from "@/content/site";
 import {
 	bookingLinks,
 	eventTypes,
@@ -23,7 +24,8 @@ import {
 } from "@/lib/booking";
 import { trackIntent } from "@/lib/analytics";
 
-export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
+export function ContactForm({ initialEvent = "", language = "en" }: { initialEvent?: string; language?: Language }) {
+	const t = uiText(language);
 	const [data, setData] = useState<BookingEnquiry>({
 		name: "",
 		eventType: initialEvent,
@@ -86,7 +88,7 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 			) === "email"
 				? "email"
 				: "whatsapp";
-		const link = bookingLinks(enquiry)[method];
+		const link = bookingLinks(enquiry, language)[method];
 		setHandoff({ method, url: link });
 		trackIntent("contact_intent", method);
 		// This happens directly in the user gesture, independently of analytics.
@@ -95,14 +97,14 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 		else window.location.href = link;
 		setStatus(
 			method === "whatsapp"
-				? "Send your draft in WhatsApp to start the conversation. If it didn't open, use the link below. Your date is not reserved yet."
-				: "Send your draft in your email app to start the conversation. If it didn't open, use the link below.",
+				? t("Send your draft in WhatsApp to start the conversation. If it didn't open, use the link below. Your date is not reserved yet.")
+				: t("Send your draft in your email app to start the conversation. If it didn't open, use the link below."),
 		);
 	}
 	const errorFor = (field: keyof BookingEnquiry) =>
 		errors[field] ? (
 			<p className="field-error" id={"error-" + field}>
-				{errors[field]}
+				{t(errors[field]!)}
 			</p>
 		) : null;
 	const accessibility = (field: keyof BookingEnquiry) => ({
@@ -113,18 +115,18 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 		<section id="contact" className="contact-section">
 			<div className="shell section contact-grid">
 				<div className="contact-copy">
-					<p className="eyebrow">LET'S MAKE IT HAPPEN</p>
+					<p className="eyebrow">{t("LET'S MAKE IT HAPPEN")}</p>
 					<h2>
-						A great night
+						{t("A great night")}
 						<br />
-						starts with
+						{t("starts with")}
 						<br />
-						<span>a hello.</span>
+						<span>{t("a hello.")}</span>
 					</h2>
 					<p>
-						Tell me a little about your celebration.
+						{t("Tell me a little about your celebration.")}
 						<br />
-						We'll take it from there.
+						{t("We'll take it from there.")}
 					</p>
 					<div className="contact-details">
 						<a
@@ -136,7 +138,7 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							}
 						>
 							<MessageCircle size={19} aria-hidden="true" />
-							{site.phoneLabel}
+							<bdi dir="ltr">{site.phoneLabel}</bdi>
 							<ArrowUpRight size={15} aria-hidden="true" />
 						</a>
 						<a
@@ -146,13 +148,13 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							}
 						>
 							<Mail size={19} aria-hidden="true" />
-							{site.email}
+							<bdi dir="ltr">{site.email}</bdi>
 						</a>
 					</div>
 					<p className="contact-location">
-						Based in Lebanon.
+						{t("Based in Lebanon.")}
 						<br />
-						Destination events on request.
+						{t("Destination events on request.")}
 					</p>
 				</div>
 				<div id="contact-form">
@@ -163,15 +165,15 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 						noValidate
 					>
 						<div className="form-heading">
-							<h3>Your event, your way.</h3>
+							<h3>{t("Your event, your way.")}</h3>
 							<p>
-								Required fields are marked with an asterisk (*).
+								{t("Required fields are marked with an asterisk (*).")}
 							</p>
 						</div>
 						<div className="form-grid">
 							<div className="field">
 								<Label htmlFor="booking-name">
-									Your name *
+									{t("Your name *")}
 								</Label>
 								<Input
 									id="booking-name"
@@ -179,7 +181,7 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 									autoComplete="name"
 									maxLength={100}
 									required
-									placeholder="What should I call you?"
+									placeholder={t("What should I call you?")}
 									value={data.name}
 									onChange={(e) =>
 										update("name", e.target.value)
@@ -190,9 +192,9 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							</div>
 							<div className="field">
 								<Label htmlFor="booking-eventType">
-									What are we celebrating? *
+									{t("What are we celebrating? *")}
 								</Label>
-								<Select
+								<Select dir={language === "ar-LB" ? "rtl" : "ltr"}
 									name="eventType"
 									required
 									value={data.eventType}
@@ -205,13 +207,13 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 										className="booking-control"
 										{...accessibility("eventType")}
 									>
-										<SelectValue placeholder="Choose your event">
+										<SelectValue placeholder={t("Choose your event")}>
 											{
-												eventTypes.find(
+												t(eventTypes.find(
 													([value]) =>
 														value ===
 														data.eventType,
-												)?.[1]
+												)?.[1] ?? "")
 											}
 										</SelectValue>
 									</SelectTrigger>
@@ -226,7 +228,7 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 												key={value}
 												value={value}
 											>
-												{label}
+												{t(label)}
 											</SelectItem>
 										))}
 									</SelectContent>
@@ -235,9 +237,9 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							</div>
 							<div className="field">
 								<Label htmlFor="booking-date">
-									Event date{!data.undecided && " *"}
+									{t("Event date")}{!data.undecided && " *"}
 								</Label>
-								<BookingDatePicker
+								{language === "ar-LB" ? <Input type="date" id="booking-date" name="date" dir="ltr" min={today} disabled={data.undecided} required={!data.undecided} value={data.date} onChange={e => update("date", e.target.value)} {...accessibility("date")} /> : <BookingDatePicker
 									minDate={today}
 									disabled={data.undecided}
 									value={data.date}
@@ -246,7 +248,7 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 									describedBy={
 										errors.date ? "error-date" : undefined
 									}
-								/>
+								/>}
 								<label className="checkbox-label">
 									<input
 										type="checkbox"
@@ -259,20 +261,20 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 											)
 										}
 									/>{" "}
-									Date not decided
+									{t("Date not decided")}
 								</label>
 								{errorFor("date")}
 							</div>
 							<div className="field">
 								<Label htmlFor="booking-location">
-									City / country *
+									{t("City / country *")}
 								</Label>
 								<Input
 									id="booking-location"
 									name="location"
 									maxLength={150}
 									required
-									placeholder="e.g. Beirut, Lebanon"
+									placeholder={t("e.g. Beirut, Lebanon")}
 									value={data.location}
 									onChange={(e) =>
 										update("location", e.target.value)
@@ -283,13 +285,13 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							</div>
 							<div className="field full-width">
 								<Label htmlFor="booking-venue">
-									Venue <span>(optional)</span>
+									{t("Venue")} <span>{t("(optional)")}</span>
 								</Label>
 								<Input
 									id="booking-venue"
 									name="venue"
 									maxLength={150}
-									placeholder="If you have somewhere in mind"
+									placeholder={t("If you have somewhere in mind")}
 									value={data.venue}
 									onChange={(e) =>
 										update("venue", e.target.value)
@@ -298,14 +300,14 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							</div>
 							<div className="field full-width">
 								<Label htmlFor="booking-message">
-									Anything else? <span>(optional)</span>
+									{t("Anything else?")} <span>{t("(optional)")}</span>
 								</Label>
 								<Textarea
 									id="booking-message"
 									name="message"
 									rows={3}
 									maxLength={1500}
-									placeholder="Your music, your people, the vibe you're after…"
+									placeholder={t("Your music, your people, the vibe you're after…")}
 									value={data.message}
 									onChange={(e) =>
 										update("message", e.target.value)
@@ -318,22 +320,20 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 							data-method="whatsapp"
 							className="button-primary form-submit"
 						>
-							Continue on WhatsApp{" "}
+							{t("Continue on WhatsApp")}{" "}
 							<ArrowUpRight aria-hidden="true" />
 						</Button>
 						<p className="handoff-note">
-							Opens a message draft. You send it in WhatsApp.
+							{t("Opens a message draft. You send it in WhatsApp.")}
 							<br />
-							Availability and booking are confirmed in
-							conversation.
+							{t("Availability and booking are confirmed in conversation.")}
 						</p>
 						<button
 							type="submit"
 							data-method="email"
 							className="email-alternative"
 						>
-							<Mail size={16} aria-hidden="true" /> Prefer email?
-							Prepare an email instead
+							<Mail size={16} aria-hidden="true" /> {t("Prefer email? Prepare an email instead")}
 						</button>
 						{status && (
 							<p className="form-status" role="status">
@@ -351,24 +351,19 @@ export function ContactForm({ initialEvent = "" }: { initialEvent?: string }) {
 								}
 								rel="noopener noreferrer"
 							>
-								Open{" "}
-								{handoff.method === "whatsapp"
-									? "WhatsApp"
-									: "email"}{" "}
-								draft <ArrowUpRight aria-hidden="true" />
+								{language === "ar-LB" ? "افتحوا مسوّدة الرسالة" : `Open ${handoff.method} draft`} <ArrowUpRight aria-hidden="true" />
 							</a>
 						)}
 						{Object.keys(errors).some(
 							(key) => errors[key as keyof BookingErrors],
 						) && (
 							<p className="field-error" role="alert">
-								Please check the highlighted fields.
+								{t("Please check the highlighted fields.")}
 							</p>
 						)}
 						<noscript>
 							<p>
-								Please use the WhatsApp or email links beside
-								this form to discuss your event.
+								{t("Please use the WhatsApp or email links beside this form to discuss your event.")}
 							</p>
 						</noscript>
 					</form>

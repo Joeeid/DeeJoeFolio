@@ -1,4 +1,5 @@
-import { site } from "../content/site";
+import { uiText } from "../content/ui-ar";
+import { site, type Language } from "../content/site";
 
 export const eventTypes = [
 	["wedding", "Wedding"],
@@ -46,10 +47,19 @@ export function validateBooking(
 	}
 	return errors;
 }
-export function bookingMessage(data: BookingEnquiry) {
+export function bookingMessage(data: BookingEnquiry, language: Language = "en") {
 	const event =
 		eventTypes.find(([value]) => value === data.eventType)?.[1] ??
 		data.eventType;
+	if (language === "ar-LB") return [
+        "مرحبا DeeJoe! حابب استفسر عن مناسبة.", "",
+        `الاسم: ${data.name.trim()}`,
+        `المناسبة: ${uiText(language)(event)}`,
+        `التاريخ: ${data.undecided ? "بعد ما حدّدنا التاريخ" : data.date}`,
+        `المدينة / البلد: ${data.location.trim()}`,
+        ...(data.venue.trim() ? [`المكان: ${data.venue.trim()}`] : []),
+        ...(data.message.trim() ? ["", data.message.trim()] : []),
+    ].join("\n");
 	return [
 		"Hi DeeJoe! I'd like to discuss my event.",
 		"",
@@ -61,10 +71,10 @@ export function bookingMessage(data: BookingEnquiry) {
 		...(data.message.trim() ? ["", data.message.trim()] : []),
 	].join("\n");
 }
-export function bookingLinks(data: BookingEnquiry) {
-	const message = encodeURIComponent(bookingMessage(data));
+export function bookingLinks(data: BookingEnquiry, language: Language = "en") {
+	const message = encodeURIComponent(bookingMessage(data, language));
 	return {
 		whatsapp: `https://wa.me/${site.phone}?text=${message}`,
-		email: `mailto:${site.email}?subject=${encodeURIComponent("Event enquiry for DeeJoe")}&body=${message}`,
+		email: `mailto:${site.email}?subject=${encodeURIComponent(language === "ar-LB" ? "استفسار عن مناسبة مع DeeJoe" : "Event enquiry for DeeJoe")}&body=${message}`,
 	};
 }

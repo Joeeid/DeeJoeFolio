@@ -49,3 +49,18 @@ Google Analytics and Google Ads share one loader and run only on the production 
 Tailwind stays on the latest 3.4 release, with `tailwind-merge` 2.6 to match. Tailwind 4 needs a separate stylesheet migration and changes the supported browser baseline. React DayPicker 10 uses the updated calendar class names and focus/navigation props in `ui/calendar.tsx` and `booking-date-picker.tsx`. The calendar is downloaded only when the date popover opens.
 
 After dependency changes, run `npm run check`, `npm test`, `npm run build`, `npm run check:build`, and `npm audit`. Check the booking date picker and mobile navigation in `npm run preview`. The typecheck also covers the tests and Vite/Tailwind configuration.
+
+## Arabic service pages
+
+`client/src/content/services-ar.ts` contains the Lebanese Arabic equivalents of the wedding and private-event pages, including titles, descriptions, visible copy and FAQs. Keep brand and venue names factual and consistent with the English source. Arabic pages use the same service template, original photos and contact flow; do not add a new landing page for each keyword variation.
+
+- `/weddings/` ↔ `/ar/weddings/`
+- `/private-events/` ↔ `/ar/private-events/`
+
+`englishPath` links each Arabic metadata entry to its English counterpart. `alternatesFor` in `site.ts` supplies both head and sitemap hreflang (`en`, `ar-LB`, English `x-default`). Each page remains self-canonical. Do not point Arabic canonicals at English pages. No Arabic home or experience translation is implied.
+
+Arabic UI text is in `client/src/content/ui-ar.ts`; English remains the default. Arabic booking messages, labels and errors are localized. The Arabic date field uses a native date input (the picker follows the browser/device locale); the English custom calendar is unchanged. Language switches are ordinary crawlable links, with no language-detection redirects.
+
+The build writes `lang="ar-LB" dir="rtl"` into production HTML; client metadata updates restore language, direction and alternates on navigation. JSON-LD uses `inLanguage` on WebPage and WebSite, with localized Service and BreadcrumbList text. Service is not a CreativeWork, so it does not receive an unsupported `inLanguage` property.
+
+Run `npm run check`, `npm test`, `npm run build`, and `npm run check:build` after edits. Build checks cover both Arabic pages and English equivalents, schema references, all internal links and sitemap alternates. `npm test` uses Node's `--import tsx` loader to avoid the tsx CLI's unnecessary IPC socket in restricted environments.

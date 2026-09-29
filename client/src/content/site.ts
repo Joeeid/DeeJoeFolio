@@ -1,3 +1,5 @@
+import { arabicPages, arabicServices } from "./services-ar.ts";
+
 export const site = {
 	name: "DeeJoe",
 	origin: "https://www.deejoelb.com",
@@ -43,7 +45,11 @@ export const faqs: FAQ[] = [
 	},
 ];
 
+export type Language = "en" | "ar-LB";
+
 export interface Service {
+	language?: Language;
+	englishPath?: string;
 	path: string;
 	eventType: string;
 	label: string;
@@ -58,6 +64,7 @@ export interface Service {
 	faqs: FAQ[];
 }
 export const services: Service[] = [
+	...arabicServices,
 	{
 		path: "/weddings/",
 		eventType: "wedding",
@@ -286,6 +293,8 @@ export const venueHistory = [
 ];
 
 export interface PageMeta {
+	language?: Language;
+	englishPath?: string;
 	path: string;
 	title: string;
 	description: string;
@@ -317,6 +326,19 @@ export const pages: PageMeta[] = [
 			"Explore DeeJoe's DJ residencies and wedding experience at Aeon Lounge, Aspen Lounge, Lotus Venue, Jardin Des Lys and venues across Lebanon.",
 	},
 ];
+pages.push(...arabicPages);
+
+// One source for head and sitemap alternates; untranslated pages have none.
+export function alternatesFor(page: PageMeta) {
+	const englishPath = page.englishPath ?? page.path;
+	const arabic = arabicPages.find(item => item.englishPath === englishPath);
+	return arabic && !page.noindex ? [
+		{ language: "en", path: englishPath },
+		{ language: "ar-LB", path: arabic.path },
+		{ language: "x-default", path: englishPath },
+	] : [];
+}
+
 export const notFoundMeta: PageMeta = {
 	path: "/404.html",
 	title: "Page Not Found | DeeJoe",
@@ -349,7 +371,7 @@ export function structuredData(page: PageMeta) {
 		url: site.origin + page.path,
 		name: page.title,
 		description: page.description,
-		inLanguage: "en",
+		inLanguage: page.language ?? "en",
 		isPartOf: { "@id": site.origin + "/#website" },
 		about: { "@id": person["@id"] },
 	};
@@ -363,7 +385,7 @@ export function structuredData(page: PageMeta) {
 				"@id": site.origin + "/#website",
 				url: site.origin + "/",
 				name: site.name,
-				inLanguage: "en",
+				inLanguage: ["en", "ar-LB"],
 				publisher: { "@id": person["@id"] },
 			},
 			{
@@ -379,7 +401,7 @@ export function structuredData(page: PageMeta) {
 							"@type": "Service",
 							"@id": site.origin + service.path + "#service",
 							name: service.serviceName,
-							serviceType: service.eventType === "wedding" ? "Wedding DJ" : "Private party and event DJ",
+							serviceType: page.language === "ar-LB" ? service.serviceName : service.eventType === "wedding" ? "Wedding DJ" : "Private party and event DJ",
 							provider: { "@id": person["@id"] },
 							areaServed: { "@type": "Country", name: "Lebanon" },
 							url: site.origin + service.path,
@@ -389,7 +411,7 @@ export function structuredData(page: PageMeta) {
 							"@type": "BreadcrumbList",
 							"@id": site.origin + service.path + "#breadcrumb",
 							itemListElement: [
-								{ "@type": "ListItem", position: 1, name: "Home", item: site.origin + "/" },
+								{ "@type": "ListItem", position: 1, name: page.language === "ar-LB" ? "الرئيسية" : "Home", item: site.origin + "/" },
 								{ "@type": "ListItem", position: 2, name: service.label, item: site.origin + service.path },
 							],
 						},

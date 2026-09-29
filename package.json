@@ -13,7 +13,7 @@
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d dist/public",
 		"predev": "node scripts/optimize-images.mjs",
-		"test": "tsx --test tests/*.test.ts tests/*.test.mjs",
+		"test": "node --import tsx --test tests/*.test.ts tests/*.test.mjs",
 		"check:build": "node scripts/check-build.mjs"
 	},
 	"dependencies": {

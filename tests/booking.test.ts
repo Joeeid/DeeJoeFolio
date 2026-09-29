@@ -44,3 +44,15 @@ test('unavailable or failing analytics never interrupts a contact handoff', () =
     else Reflect.deleteProperty(globalThis, 'window');
   }
 });
+
+test('Arabic handoffs keep guest details intact and use localized event labels', () => {
+  const enquiry = { ...valid, name: 'ليلى & علي', location: 'بيروت، لبنان', undecided: true };
+  const message = bookingMessage(enquiry, 'ar-LB');
+  assert.ok(message.includes('المناسبة: عرس'));
+  assert.ok(message.includes('التاريخ: بعد ما حدّدنا التاريخ'));
+  assert.ok(message.includes(enquiry.name) && message.includes(enquiry.message));
+  const links = bookingLinks(enquiry, 'ar-LB');
+  assert.equal(new URL(links.whatsapp).searchParams.get('text'), message);
+  assert.equal(new URL(links.email).searchParams.get('body'), message);
+  assert.equal(new URL(links.email).searchParams.get('subject'), 'استفسار عن مناسبة مع DeeJoe');
+});

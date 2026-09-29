@@ -1451,3 +1451,39 @@
 		display: none;
 	}
 }
+
+/* Arabic uses the same palette, grid and imagery, with readable connected script. */
+html[lang="ar-LB"] body {
+  font-family: Tahoma, Arial, sans-serif;
+  line-height: 1.9;
+}
+html[lang="ar-LB"] :is(h1, h2, h3, .eyebrow, .footer-bottom) {
+  letter-spacing: normal;
+  text-transform: none;
+}
+html[lang="ar-LB"] :is(h1, h2, h3) { line-height: 1.45; }
+html[lang="ar-LB"] .service-hero h1 { font-size: clamp(2.5rem, 4.4vw, 4.4rem); }
+html[lang="ar-LB"] .service-details h2 { line-height: 1.6; }
+html[dir="rtl"] .faq-toggle { margin-left: 0; margin-inline-start: auto; }
+html[dir="rtl"] .desktop-nav { margin-right: 0; }
+html[dir="rtl"] .field .booking-control { text-align: start; }
+html[dir="rtl"] .navigation-dialog { text-align: start; }
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 10px;
+  color: #d4c6a8;
+  font-size: 0.875rem;
+}
+.footer-languages { display: flex; flex-wrap: wrap; gap: 24px; font-size: 0.875rem; }
+html[dir="rtl"] .header-booking { padding-inline: 16px; gap: 10px; }
+@media (max-width: 1000px) {
+  html[dir="rtl"] .desktop-nav { display: none; }
+  html[dir="rtl"] .mobile-menu-trigger { display: inline-flex; }
+}
+@media (max-width: 760px) {
+  .language-switch { margin-inline-start: auto; }
+  html[dir="rtl"] .mobile-booking-bar > span { display: none; }
+  html[dir="rtl"] .mobile-booking-bar { justify-content: center; }
+}
