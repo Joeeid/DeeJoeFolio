@@ -1,4 +1,4 @@
-import { site, structuredData, type PageMeta } from "../content/site.ts";
+import { site, structuredData, alternatesFor, type PageMeta } from "../content/site.ts";
 export function escapeHtml(value: string) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
@@ -6,11 +6,13 @@ export function renderHead(page: PageMeta) {
   const title = escapeHtml(page.title);
   const description = escapeHtml(page.description);
   const url = site.origin + page.path;
+  const arabic = page.language === "ar";
   return [
     `<title>${title}</title>`,
     `<meta name="description" content="${description}">`,
     `<meta name="robots" content="${page.noindex ? "noindex, follow" : "index, follow"}">`,
     ...(page.noindex ? [] : [`<link rel="canonical" href="${url}">`]),
+    ...alternatesFor(page).map(item => `<link rel="alternate" hreflang="${item.language}" href="${site.origin}${item.path}">`),
     `<meta property="og:title" content="${title}">`,
     `<meta property="og:description" content="${description}">`,
     '<meta property="og:type" content="website">',
@@ -19,19 +21,40 @@ export function renderHead(page: PageMeta) {
     `<meta property="og:image" content="${site.origin}/assets/og-image.jpg">`,
     '<meta property="og:image:width" content="1200">',
     '<meta property="og:image:height" content="630">',
-    '<meta property="og:image:alt" content="DeeJoe — DJ for weddings and private parties in Lebanon">',
-    '<meta property="og:locale" content="en_US">',
+    `<meta property="og:image:alt" content="${socialImageAlt(page)}">`,
+    `<meta property="og:locale" content="${arabic ? "ar_LB" : "en_US"}">`,
+    ...(alternatesFor(page).length ? [`<meta property="og:locale:alternate" content="${arabic ? "en_US" : "ar_LB"}">`] : []),
     '<meta name="twitter:card" content="summary_large_image">',
     `<meta name="twitter:title" content="${title}">`,
     `<meta name="twitter:description" content="${description}">`,
     `<meta name="twitter:image" content="${site.origin}/assets/twitter-image.jpg">`,
-    '<meta name="twitter:image:alt" content="DeeJoe — DJ for weddings and private parties in Lebanon">',
+    `<meta name="twitter:image:alt" content="${socialImageAlt(page)}">`,
     ...(!page.noindex ? [`<script id="structured-data" type="application/ld+json">${JSON.stringify(structuredData(page)).replace(/</g, "\\u003c")}</script>`] : []),
   ].join("\n");
 }
+function socialImageAlt(page: PageMeta) {
+  return page.language === "ar" ? "DeeJoe — دي جي للأعراس والحفلات الخاصة في لبنان" : "DeeJoe — DJ for weddings and private parties in Lebanon";
+}
 export function updateMetadata(page: PageMeta) {
+  document.documentElement.lang = page.language ?? "en";
+  document.documentElement.dir = page.language === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll('link[hreflang], meta[property="og:locale:alternate"]').forEach(node => node.remove());
+  for (const item of alternatesFor(page)) {
+    const link = document.createElement("link");
+    link.rel = "alternate"; link.hreflang = item.language; link.href = site.origin + item.path;
+    document.head.appendChild(link);
+  }
+  if (alternatesFor(page).length) {
+    const meta = document.createElement("meta");
+    meta.setAttribute("property", "og:locale:alternate");
+    meta.content = page.language === "ar" ? "en_US" : "ar_LB";
+    document.head.appendChild(meta);
+  }
   document.title = page.title;
   const values = {
+    'meta[property="og:locale"]': page.language === "ar" ? "ar_LB" : "en_US",
+    'meta[property="og:image:alt"]': socialImageAlt(page),
+    'meta[name="twitter:image:alt"]': socialImageAlt(page),
     'meta[name="description"]': page.description,
     'meta[name="robots"]': page.noindex ? "noindex, follow" : "index, follow",
     'meta[property="og:title"]': page.title,

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { uiText } from "@/content/ui-ar";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { pageForPath } from "@/content/site";
+import { pageForPath, alternatesFor, localizedPath } from "@/content/site";
 import { Menu, ArrowUpRight, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,29 +22,45 @@ const navigation = [
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	const [menuOpen, setMenuOpen] = useState(false);
-	const bookingHref = pageForPath(useLocation().pathname).noindex
-		? "/#contact"
+	const location = useLocation();
+	// Fragments are absent from prerendered HTML; add them after hydration.
+	const [sectionHash, setSectionHash] = useState("");
+	useEffect(() => setSectionHash(location.hash), [location.hash]);
+	const page = pageForPath(location.pathname);
+	const arabic = page.language === "ar";
+	const t = uiText(page.language);
+	const links = navigation.map(item => ({ href: localizedPath(item.href, page.language), label: t(item.label) }));
+	const equivalents = alternatesFor(page);
+	const englishHref = (equivalents.find(item => item.language === "en")?.path ?? "/") + sectionHash;
+	const arabicHref = (equivalents.find(item => item.language === "ar")?.path ?? "/ar/") + sectionHash;
+	const bookingHref = page.noindex
+		? localizedPath("/#contact", page.language)
 		: "#contact";
 	return (
 		<>
 			<a href="#main" className="skip-link">
-				Skip to content
+				{t("Skip to content")}
 			</a>
 			<header className="site-header">
 				<div className="shell header-inner">
-					<a className="wordmark" href="/" aria-label="DeeJoe home">
+					<a dir="ltr" className="wordmark" href={localizedPath("/", page.language)} aria-label={t("DeeJoe home")}>
 						DEEJOE<span>.</span>
 					</a>
-					<nav aria-label="Main navigation" className="desktop-nav">
-						{navigation.map((item) => (
+					<nav aria-label={t("Main navigation")} className="desktop-nav">
+						{links.map((item) => (
 							<a key={item.href} href={item.href}>
 								{item.label}
 							</a>
 						))}
 					</nav>
+					<nav className="language-switch" aria-label={arabic ? "اختيار اللغة" : "Choose language"} dir="ltr">
+						<a href={englishHref} hrefLang="en" lang="en" aria-current={!arabic ? "true" : undefined}>English</a>
+						<span aria-hidden="true">|</span>
+						<a href={arabicHref} hrefLang="ar" lang="ar" dir="rtl" aria-current={arabic ? "true" : undefined}>العربية</a>
+					</nav>
 					<Button asChild className="button-primary header-booking">
 						<a href={bookingHref}>
-							Book Your Event <ArrowUpRight aria-hidden="true" />
+							{t("Book Your Event")} <ArrowUpRight aria-hidden="true" />
 						</a>
 					</Button>
 					<Dialog open={menuOpen} onOpenChange={setMenuOpen}>
@@ -52,20 +69,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 								variant="ghost"
 								size="icon"
 								className="mobile-menu-trigger"
-								aria-label="Open navigation"
+								aria-label={t("Open navigation")}
 							>
 								<Menu />
 							</Button>
 						</DialogTrigger>
-						<DialogContent className="navigation-dialog">
-							<DialogTitle className="wordmark">
+						<DialogContent dir={arabic ? "rtl" : "ltr"} className="navigation-dialog">
+							<DialogTitle dir="ltr" className="wordmark">
 								DEEJOE<span>.</span>
 							</DialogTitle>
 							<DialogDescription>
-								Find your soundtrack.
+								{t("Find your soundtrack.")}
 							</DialogDescription>
-							<nav aria-label="Mobile navigation">
-								{navigation.map((item) => (
+							<nav aria-label={t("Mobile navigation")}>
+								{links.map((item) => (
 									<DialogClose asChild key={item.href}>
 										<a href={item.href}>
 											{item.label}
@@ -78,7 +95,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 										href={bookingHref}
 										className="mobile-book-link"
 									>
-										Book Your Event{" "}
+										{t("Book Your Event")}{" "}
 										<ArrowUpRight aria-hidden="true" />
 									</a>
 								</DialogClose>
@@ -92,10 +109,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</main>
 			<footer className="site-footer shell">
 				<div>
-					<a className="wordmark" href="/">
+					<a dir="ltr" className="wordmark" href={localizedPath("/", page.language)}>
 						DEEJOE<span>.</span>
 					</a>
-					<p>Bringing life to every beat.</p>
+					<p>{t("Bringing life to every beat.")}</p>
 				</div>
 				<div className="footer-links">
 					<a
@@ -117,19 +134,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
 						<Headphones size={17} aria-hidden="true" /> Anghami
 					</a>
 					<a href="mailto:bookings@deejoelb.com">
-						Get in touch{" "}
+						{t("Get in touch")}{" "}
 						<ArrowUpRight size={17} aria-hidden="true" />
 					</a>
 				</div>
+				<nav className="footer-languages" aria-label={arabic ? "الخدمات بالعربية" : "Services in Arabic"} lang="ar" dir="rtl"><a href="/ar/weddings/" hrefLang="ar">الأعراس</a><a href="/ar/private-events/" hrefLang="ar">الحفلات الخاصة</a></nav>
 				<div className="footer-bottom">
 					<span>© DeeJoe</span>
-					<span>BASED IN LEBANON. MUSIC WITHOUT BORDERS.</span>
+					<span>{t("BASED IN LEBANON. MUSIC WITHOUT BORDERS.")}</span>
 				</div>
 			</footer>
 			<div className="mobile-booking-bar">
-				<span>Let's make it a night.</span>
+				<span>{t("Let's make it a night.")}</span>
 				<a href={bookingHref}>
-					Book Your Event{" "}
+					{t("Book Your Event")}{" "}
 					<ArrowUpRight size={17} aria-hidden="true" />
 				</a>
 			</div>

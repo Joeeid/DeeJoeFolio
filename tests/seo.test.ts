@@ -26,7 +26,7 @@ test('service entities and breadcrumbs agree with their page and visible content
     assert.deepEqual(entity?.areaServed, { '@type': 'Country', name: 'Lebanon' });
     const crumbs = graph.find(item => item['@type'] === 'BreadcrumbList')?.itemListElement;
     assert.deepEqual(crumbs.map((item: any) => [item.position, item.name, item.item]), [
-      [1, 'Home', site.origin + '/'], [2, service.label, site.origin + page.path],
+      [1, page.language === 'ar' ? 'الرئيسية' : 'Home', site.origin + (page.language === "ar" ? "/ar/" : "/")], [2, service.label, site.origin + page.path],
     ]);
   }
 });
@@ -48,12 +48,16 @@ test('client navigation restores canonical and JSON-LD after a 404 without dupli
   // Small document adapter: exercise navigation behavior without a browser dependency.
   const nodes: ElementStub[] = [];
   class ElementStub {
-    id = ''; rel = ''; href = ''; type = ''; textContent = '';
+    id = ''; rel = ''; href = ''; type = ''; textContent = ''; hreflang = '';
+    attributes: Record<string, string> = {};
+    setAttribute(key: string, value: string) { this.attributes[key] = value; }
     remove() { nodes.splice(nodes.indexOf(this), 1); }
   }
   const original = Object.getOwnPropertyDescriptor(globalThis, 'document');
   const documentStub = {
     title: '',
+    documentElement: { lang: '', dir: '' },
+    querySelectorAll() { return nodes.filter(node => node.hreflang || node.attributes.property === 'og:locale:alternate'); },
     head: { appendChild(node: ElementStub) { nodes.push(node); } },
     createElement() { return new ElementStub(); },
     querySelector(selector: string) { return selector === 'link[rel="canonical"]' ? nodes.find(node => node.rel === 'canonical') ?? null : null; },
@@ -61,9 +65,12 @@ test('client navigation restores canonical and JSON-LD after a 404 without dupli
   };
   Object.defineProperty(globalThis, 'document', { value: documentStub, configurable: true });
   try {
-    for (const page of [notFoundMeta, pages[2], pages[2], notFoundMeta, pages[1], pages[0]]) {
+    for (const page of [notFoundMeta, pages[4], pages[4], pages[5], pages[6], pages[7], pages[2], notFoundMeta, pages[1], pages[0]]) {
       updateMetadata(page);
       assert.equal(documentStub.title, page.title);
+      assert.equal(documentStub.documentElement.lang, page.language ?? "en");
+      assert.equal(documentStub.documentElement.dir, page.language === "ar" ? "rtl" : "ltr");
+      assert.equal(nodes.filter(node => node.hreflang).length, page.noindex ? 0 : 3);
       const canonicals = nodes.filter(node => node.rel === 'canonical');
       const scripts = nodes.filter(node => node.id === 'structured-data');
       assert.equal(canonicals.length, page.noindex ? 0 : 1);
@@ -78,4 +85,21 @@ test('client navigation restores canonical and JSON-LD after a 404 without dupli
     if (original) Object.defineProperty(globalThis, 'document', original);
     else Reflect.deleteProperty(globalThis, 'document');
   }
+});
+
+test('all public pages have reciprocal equivalents and Arabic routes resolve before fallback', async () => {
+  const { alternatesFor, pageForPath, localizedPath } = await import('../client/src/content/site');
+  for (const path of ['/', '/weddings/', '/private-events/', '/experience/']) {
+    const english = pageForPath(path);
+    const arabic = pageForPath(localizedPath(path, 'ar'));
+    assert.equal(arabic.language, 'ar');
+    assert.equal(arabic.noindex, undefined);
+    assert.deepEqual(alternatesFor(english), alternatesFor(arabic));
+    assert.equal(alternatesFor(english).length, 3);
+  }
+  assert.equal(localizedPath('/#reviews', 'ar'), '/ar/#reviews');
+  assert.equal(pageForPath('/ar/experience').path, '/ar/experience/');
+  assert.equal(pageForPath('/ar/missing').language, 'ar');
+  assert.equal(pageForPath('/ar/missing').noindex, true);
+  assert.deepEqual(alternatesFor(pageForPath('/ar/missing')), []);
 });

@@ -1,13 +1,15 @@
+import { uiText } from "@/content/ui-ar";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { site } from "@/content/site";
+import { site, type Language } from "@/content/site";
 import { trackIntent } from "@/lib/analytics";
 
-function MusicSkeleton() {
+function MusicSkeleton({ language = "en" }: { language?: Language }) {
+	const t = uiText(language);
 	return (
 		<div className="music-loading" role="status">
-			<span className="sr-only">Loading Anghami player...</span>
+			<span className="sr-only">{t("Loading Anghami player...")}</span>
 			<div className="music-placeholder-content" aria-hidden="true">
 				<Skeleton className="music-placeholder music-placeholder-cover" />
 				<Skeleton className="music-placeholder music-placeholder-title" />
@@ -23,7 +25,8 @@ function MusicSkeleton() {
 	);
 }
 
-export function Music() {
+export function Music({ language = "en" }: { language?: Language }) {
+	const t = uiText(language);
 	const section = useRef<HTMLElement>(null);
 	const [attempt, setAttempt] = useState(0);
 	const [status, setStatus] = useState<"idle" | "loading" | "ready" | "failed">("idle");
@@ -57,16 +60,14 @@ export function Music() {
 		<section ref={section} id="music" className="music-section">
 			<div className="shell section music-grid">
 				<div>
-					<p className="eyebrow">02 / PRESS PLAY</p>
+					<p className="eyebrow">{t("02 / PRESS PLAY")}</p>
 					<h2>
-						A little taste
+						{t("A little taste")}
 						<br />
-						of <span>my sound.</span>
+						{language !== "ar" && "of "}<span>{t("my sound.")}</span>
 					</h2>
 					<p className="section-intro">
-						Arabic favourites. House grooves. Unexpected
-						connections. Get to know the music before we make your
-						night.
+						{t("Arabic favourites. House grooves. Unexpected connections. Get to know the music before we make your night.")}
 					</p>
 					<a
 						className="text-link"
@@ -77,18 +78,18 @@ export function Music() {
 							trackIntent("music_open", "anghami_external")
 						}
 					>
-						View my Anghami profile{" "}
+						{t("View my Anghami profile")}{" "}
 						<ArrowUpRight aria-hidden="true" />
 					</a>
 				</div>
 				<div className="music-player">
 					<div className="music-player-panel" data-status={status} aria-busy={status === "loading"}>
-						{(status === "idle" || status === "loading") && <MusicSkeleton />}
+						{(status === "idle" || status === "loading") && <MusicSkeleton language={language} />}
 						{status !== "idle" && (
 							<iframe
 								key={attempt}
-								title={site.featuredMix.title + " on Anghami"}
-								src={site.featuredMix.embedUrl}
+								title={site.featuredMix.title + (language === "ar" ? " على Anghami" : " on Anghami")}
+								src={language === "ar" ? site.featuredMix.embedUrl.replace("lang=en", "lang=ar") : site.featuredMix.embedUrl}
 								width="100%"
 								height="600"
 								scrolling="no"
@@ -102,15 +103,15 @@ export function Music() {
 					</div>
 					{status === "failed" && (
 						<p className="provider-note" role="status">
-							The player is taking too long to load. Try reloading it or listen directly on Anghami.
+							{t("The player is taking too long to load. Try reloading it or listen directly on Anghami.")}
 						</p>
 					)}
 					<noscript><style>{".music-player-panel { display: none; }"}</style></noscript>
 					<p className="provider-note">
-						Player not working?{" "}
+						{t("Player not working?")}{" "}
 						<button type="button" onClick={retryPlayer}>
-							Reload player
-						</button>{" or "}
+							{t("Reload player")}
+						</button>{language === "ar" ? " أو " : " or "}
 						<a
 							href={site.featuredMix.url}
 							target="_blank"
@@ -119,7 +120,7 @@ export function Music() {
 								trackIntent("music_open", "anghami_mix")
 							}
 						>
-							Listen directly on Anghami.
+							{t("Listen directly on Anghami.")}
 						</a>
 					</p>
 				</div>
