@@ -138,7 +138,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 						<ArrowUpRight size={17} aria-hidden="true" />
 					</a>
 				</div>
-				<nav className="footer-languages" aria-label={arabic ? "الخدمات بالعربية" : "Services in Arabic"} lang="ar" dir="rtl"><a href="/ar/weddings/" hrefLang="ar">الأعراس</a><a href="/ar/private-events/" hrefLang="ar">الحفلات الخاصة</a></nav>
+				<nav className="footer-languages" aria-label={t("Services")}>
+					<a href={localizedPath("/weddings/", page.language)}>{t("Weddings")}</a>
+					<a href={localizedPath("/private-events/", page.language)}>{t("Private celebrations")}</a>
+				</nav>
 				<div className="footer-bottom">
 					<span>© DeeJoe</span>
 					<span>{t("BASED IN LEBANON. MUSIC WITHOUT BORDERS.")}</span>
@@ -147,7 +150,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<div className="mobile-booking-bar">
 				<span>{t("Let's make it a night.")}</span>
 				<a href={bookingHref}>
-					{t("Book Your Event")}{" "}
+					{arabic ? "احجزوا مناسبتكن" : "Book Your Event"}{" "}
 					<ArrowUpRight size={17} aria-hidden="true" />
 				</a>
 			</div>

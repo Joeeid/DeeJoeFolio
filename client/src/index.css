@@ -627,6 +627,8 @@
 		color: #b4b1a8;
 	}
 	.mobile-booking-bar a {
+		flex-shrink: 0;
+		white-space: nowrap;
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
@@ -1108,6 +1110,22 @@
 	color: #f1eadb;
 	box-shadow: none;
 }
+/* Native date controls must shrink inside narrow grids, including iOS Safari. */
+.field input[type="date"] {
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+	appearance: none;
+	-webkit-appearance: none;
+}
+.field input[type="date"]::-webkit-date-and-time-value {
+	min-width: 0;
+	text-align: start;
+}
+.field input[type="date"]::-webkit-datetime-edit {
+	min-width: 0;
+	padding: 0;
+}
 .field textarea {
 	resize: vertical;
 }
@@ -1487,8 +1505,6 @@ html[dir="rtl"] .header-booking { padding-inline: 16px; gap: 10px; }
 }
 @media (max-width: 760px) {
   .language-switch { margin-inline-start: auto; }
-  html[dir="rtl"] .mobile-booking-bar > span { display: none; }
-  html[dir="rtl"] .mobile-booking-bar { justify-content: center; }
 }
 
 .language-switch { gap: 8px; padding-inline: 0; flex-shrink: 0; white-space: nowrap; }
