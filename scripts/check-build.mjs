@@ -9,7 +9,7 @@ const descriptions = new Set();
 for (const path of [...paths, '/404.html', '/ar/404.html']) {
   const html = await readFile(resolve(root, path.endsWith('404.html') ? path.slice(1) : path.slice(1) + 'index.html'), 'utf8');
   const arabic = path.startsWith('/ar/');
-  assert.ok(html.includes(`<html lang="${arabic ? 'ar-LB' : 'en'}" dir="${arabic ? 'rtl' : 'ltr'}">`), `HTML language/direction: ${path}`);
+  assert.ok(html.includes(`<html lang="${arabic ? 'ar' : 'en'}" dir="${arabic ? 'rtl' : 'ltr'}">`), `HTML language/direction: ${path}`);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
   assert.ok(title && !titles.has(title), `Unique title: ${path}`); titles.add(title);
   assert.equal((html.match(/<h1[ >]/g) || []).length, 1, `One h1: ${path}`);
@@ -45,10 +45,10 @@ for (const path of [...paths, '/404.html', '/ar/404.html']) {
     for (const item of data['@graph']) {
       if (item.image) await access(resolve(root, new URL(item.image).pathname.slice(1)));
     }
-    assert.equal(webpage.inLanguage, arabic ? 'ar-LB' : 'en');
+    assert.equal(webpage.inLanguage, arabic ? 'ar' : 'en');
     assert.ok(html.includes(`property="og:locale" content="${arabic ? 'ar_LB' : 'en_US'}"`));
     const englishPath = path.replace(/^\/ar/, '');
-    for (const [language, alternate] of [['en', englishPath], ['ar-LB', '/ar' + englishPath], ['x-default', englishPath]]) {
+    for (const [language, alternate] of [['en', englishPath], ['ar', '/ar' + englishPath], ['x-default', englishPath]]) {
       assert.ok(html.includes(`rel="alternate" hreflang="${language}" href="https://www.deejoelb.com${alternate}"`), `Alternate: ${path} → ${language}`);
     }
     assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, 3);
@@ -103,7 +103,7 @@ assert.ok(sitemap.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
 for (const entry of sitemap.matchAll(/<url>(.*?)<\/url>/gs)) {
   const path = new URL(entry[1].match(/<loc>(.*?)<\/loc>/)[1]).pathname;
   const englishPath = path.replace(/^\/ar/, '');
-  for (const [lang, alternate] of [['en', englishPath], ['ar-LB', '/ar' + englishPath], ['x-default', englishPath]]) {
+  for (const [lang, alternate] of [['en', englishPath], ['ar', '/ar' + englishPath], ['x-default', englishPath]]) {
     assert.ok(entry[1].includes(`<xhtml:link rel="alternate" hreflang="${lang}" href="https://www.deejoelb.com${alternate}"/>`));
   }
 }

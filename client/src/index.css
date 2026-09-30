@@ -1456,17 +1456,17 @@
 }
 
 /* Arabic uses the same palette, grid and imagery, with readable connected script. */
-html[lang="ar-LB"] body {
+html[lang="ar"] body {
   font-family: Tahoma, Arial, sans-serif;
   line-height: 1.9;
 }
-html[lang="ar-LB"] :is(h1, h2, h3, .eyebrow, .footer-bottom) {
+html[lang="ar"] :is(h1, h2, h3, .eyebrow, .footer-bottom) {
   letter-spacing: normal;
   text-transform: none;
 }
-html[lang="ar-LB"] :is(h1, h2, h3) { line-height: 1.45; }
-html[lang="ar-LB"] .service-hero h1 { font-size: clamp(2.5rem, 4.4vw, 4.4rem); }
-html[lang="ar-LB"] .service-details h2 { line-height: 1.6; }
+html[lang="ar"] :is(h1, h2, h3) { line-height: 1.45; }
+html[lang="ar"] .service-hero h1 { font-size: clamp(2.5rem, 4.4vw, 4.4rem); }
+html[lang="ar"] .service-details h2 { line-height: 1.6; }
 html[dir="rtl"] .faq-toggle { margin-left: 0; margin-inline-start: auto; }
 html[dir="rtl"] .desktop-nav { margin-right: 0; }
 html[dir="rtl"] .field .booking-control { text-align: start; }
@@ -1497,10 +1497,10 @@ html[dir="rtl"] .header-booking { padding-inline: 16px; gap: 10px; }
 .language-switch > span { color: #706e68; }
 html[dir="rtl"] .desktop-nav { margin-inline-start: auto; margin-inline-end: 0; }
 html[dir="rtl"] .small-rule { margin-right: 0; margin-inline-end: 12px; }
-html[lang="ar-LB"] :is(.genre-strip, .image-index, .photo-caption, .portrait-label, .about-lead, .selected-venues, .footer-bottom > span) { letter-spacing: normal; }
-html[lang="ar-LB"] .hero h1 { font-size: clamp(2.8rem, 5.4vw, 5rem); }
-html[lang="ar-LB"] .about-lead { line-height: 1.65; }
-html[lang="ar-LB"] .portrait-label > span:first-child { font-family: "DeeJoe Brand", Arial, sans-serif; }
+html[lang="ar"] :is(.genre-strip, .image-index, .photo-caption, .portrait-label, .about-lead, .selected-venues, .footer-bottom > span) { letter-spacing: normal; }
+html[lang="ar"] .hero h1 { font-size: clamp(2.8rem, 5.4vw, 5rem); }
+html[lang="ar"] .about-lead { line-height: 1.65; }
+html[lang="ar"] .portrait-label > span:first-child { font-family: "DeeJoe Brand", Arial, sans-serif; }
 @media (max-width: 1100px) and (min-width: 761px) {
   .header-inner { gap: 16px; }
   .desktop-nav { gap: 14px; }
@@ -1508,7 +1508,7 @@ html[lang="ar-LB"] .portrait-label > span:first-child { font-family: "DeeJoe Bra
 @media (max-width: 760px) {
   .header-inner { gap: 12px; }
   .language-switch { font-size: 0.75rem; gap: 5px; }
-  html[lang="ar-LB"] .hero-actions { flex-wrap: wrap; gap: 20px; }
+  html[lang="ar"] .hero-actions { flex-wrap: wrap; gap: 20px; }
 }
 @media (max-width: 360px) {
   .header-inner { gap: 6px; }

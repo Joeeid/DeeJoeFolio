@@ -6,7 +6,7 @@ export function renderHead(page: PageMeta) {
   const title = escapeHtml(page.title);
   const description = escapeHtml(page.description);
   const url = site.origin + page.path;
-  const arabic = page.language === "ar-LB";
+  const arabic = page.language === "ar";
   return [
     `<title>${title}</title>`,
     `<meta name="description" content="${description}">`,
@@ -33,11 +33,11 @@ export function renderHead(page: PageMeta) {
   ].join("\n");
 }
 function socialImageAlt(page: PageMeta) {
-  return page.language === "ar-LB" ? "DeeJoe — دي جي للأعراس والحفلات الخاصة في لبنان" : "DeeJoe — DJ for weddings and private parties in Lebanon";
+  return page.language === "ar" ? "DeeJoe — دي جي للأعراس والحفلات الخاصة في لبنان" : "DeeJoe — DJ for weddings and private parties in Lebanon";
 }
 export function updateMetadata(page: PageMeta) {
   document.documentElement.lang = page.language ?? "en";
-  document.documentElement.dir = page.language === "ar-LB" ? "rtl" : "ltr";
+  document.documentElement.dir = page.language === "ar" ? "rtl" : "ltr";
   document.querySelectorAll('link[hreflang], meta[property="og:locale:alternate"]').forEach(node => node.remove());
   for (const item of alternatesFor(page)) {
     const link = document.createElement("link");
@@ -47,12 +47,12 @@ export function updateMetadata(page: PageMeta) {
   if (alternatesFor(page).length) {
     const meta = document.createElement("meta");
     meta.setAttribute("property", "og:locale:alternate");
-    meta.content = page.language === "ar-LB" ? "en_US" : "ar_LB";
+    meta.content = page.language === "ar" ? "en_US" : "ar_LB";
     document.head.appendChild(meta);
   }
   document.title = page.title;
   const values = {
-    'meta[property="og:locale"]': page.language === "ar-LB" ? "ar_LB" : "en_US",
+    'meta[property="og:locale"]': page.language === "ar" ? "ar_LB" : "en_US",
     'meta[property="og:image:alt"]': socialImageAlt(page),
     'meta[name="twitter:image:alt"]': socialImageAlt(page),
     'meta[name="description"]': page.description,

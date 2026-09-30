@@ -86,7 +86,7 @@ export default function Home({ language = "en" }: { language?: Language }) {
 					<h1 id="hero-title">
 						{t("Your night.")}
 						<br />
-						{language === "ar-LB" ? <>والموسيقى <span>عليّي.</span></> : <>My <span>playlist.</span></>}
+						{language === "ar" ? <>والموسيقى <span>عليّي.</span></> : <>My <span>playlist.</span></>}
 					</h1>
 					<p className="hero-intro">
 						{t("I'm DeeJoe, an open-format DJ in Lebanon. Bringing people together for weddings, private parties, and nights that turn into mornings.")}

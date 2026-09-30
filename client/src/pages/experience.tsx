@@ -70,7 +70,7 @@ export function ExperiencePage({ language = "en" }: { language?: Language }) {
 												{t(venue.description)}
 											</p>
 										</div>
-										<span><bdi>{language === "ar-LB" ? venue.period.replace("Present", "حتى اليوم") : venue.period}</bdi></span>
+										<span><bdi>{language === "ar" ? venue.period.replace("Present", "حتى اليوم") : venue.period}</bdi></span>
 									</article>
 								))}
 						</div>

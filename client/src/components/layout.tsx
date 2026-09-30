@@ -27,12 +27,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	const [sectionHash, setSectionHash] = useState("");
 	useEffect(() => setSectionHash(location.hash), [location.hash]);
 	const page = pageForPath(location.pathname);
-	const arabic = page.language === "ar-LB";
+	const arabic = page.language === "ar";
 	const t = uiText(page.language);
 	const links = navigation.map(item => ({ href: localizedPath(item.href, page.language), label: t(item.label) }));
 	const equivalents = alternatesFor(page);
 	const englishHref = (equivalents.find(item => item.language === "en")?.path ?? "/") + sectionHash;
-	const arabicHref = (equivalents.find(item => item.language === "ar-LB")?.path ?? "/ar/") + sectionHash;
+	const arabicHref = (equivalents.find(item => item.language === "ar")?.path ?? "/ar/") + sectionHash;
 	const bookingHref = page.noindex
 		? localizedPath("/#contact", page.language)
 		: "#contact";
@@ -56,7 +56,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					<nav className="language-switch" aria-label={arabic ? "اختيار اللغة" : "Choose language"} dir="ltr">
 						<a href={englishHref} hrefLang="en" lang="en" aria-current={!arabic ? "true" : undefined}>English</a>
 						<span aria-hidden="true">|</span>
-						<a href={arabicHref} hrefLang="ar-LB" lang="ar-LB" dir="rtl" aria-current={arabic ? "true" : undefined}>العربية</a>
+						<a href={arabicHref} hrefLang="ar" lang="ar" dir="rtl" aria-current={arabic ? "true" : undefined}>العربية</a>
 					</nav>
 					<Button asChild className="button-primary header-booking">
 						<a href={bookingHref}>
@@ -138,7 +138,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 						<ArrowUpRight size={17} aria-hidden="true" />
 					</a>
 				</div>
-				<nav className="footer-languages" aria-label={arabic ? "الخدمات بالعربية" : "Services in Arabic"} lang="ar-LB" dir="rtl"><a href="/ar/weddings/" hrefLang="ar-LB">الأعراس</a><a href="/ar/private-events/" hrefLang="ar-LB">الحفلات الخاصة</a></nav>
+				<nav className="footer-languages" aria-label={arabic ? "الخدمات بالعربية" : "Services in Arabic"} lang="ar" dir="rtl"><a href="/ar/weddings/" hrefLang="ar">الأعراس</a><a href="/ar/private-events/" hrefLang="ar">الحفلات الخاصة</a></nav>
 				<div className="footer-bottom">
 					<span>© DeeJoe</span>
 					<span>{t("BASED IN LEBANON. MUSIC WITHOUT BORDERS.")}</span>

@@ -3,12 +3,12 @@ export function FAQSection({ items, language = "en" }: { items: FAQ[]; language?
 	return (
 		<section id="faq" className="section shell faq-section">
 			<div>
-				<p className="eyebrow">{language === "ar-LB" ? "قبل ما نبلّش" : "A FEW THINGS TO KNOW"}</p>
+				<p className="eyebrow">{language === "ar" ? "قبل ما نبلّش" : "A FEW THINGS TO KNOW"}</p>
 				<h2>
-					{language === "ar-LB" ? "أسئلة قبل الحفلة" : <>Before the<br />first beat.</>}
+					{language === "ar" ? "أسئلة قبل الحفلة" : <>Before the<br />first beat.</>}
 				</h2>
 				<p className="section-intro">
-					{language === "ar-LB" ? "شوي تخطيط، وكتير لحظات حلوة ناطرينها." : <>A little planning.<br />A lot to look forward to.</>}
+					{language === "ar" ? "شوي تخطيط، وكتير لحظات حلوة ناطرينها." : <>A little planning.<br />A lot to look forward to.</>}
 				</p>
 			</div>
 			<div className="faq-list">

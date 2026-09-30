@@ -194,7 +194,7 @@ export function ContactForm({ initialEvent = "", language = "en" }: { initialEve
 								<Label htmlFor="booking-eventType">
 									{t("What are we celebrating? *")}
 								</Label>
-								<Select dir={language === "ar-LB" ? "rtl" : "ltr"}
+								<Select dir={language === "ar" ? "rtl" : "ltr"}
 									name="eventType"
 									required
 									value={data.eventType}
@@ -239,7 +239,7 @@ export function ContactForm({ initialEvent = "", language = "en" }: { initialEve
 								<Label htmlFor="booking-date">
 									{t("Event date")}{!data.undecided && " *"}
 								</Label>
-								{language === "ar-LB" ? <Input type="date" id="booking-date" name="date" dir="ltr" min={today} disabled={data.undecided} required={!data.undecided} value={data.date} onChange={e => update("date", e.target.value)} {...accessibility("date")} /> : <BookingDatePicker
+								{language === "ar" ? <Input type="date" id="booking-date" name="date" dir="ltr" min={today} disabled={data.undecided} required={!data.undecided} value={data.date} onChange={e => update("date", e.target.value)} {...accessibility("date")} /> : <BookingDatePicker
 									minDate={today}
 									disabled={data.undecided}
 									value={data.date}
@@ -351,7 +351,7 @@ export function ContactForm({ initialEvent = "", language = "en" }: { initialEve
 								}
 								rel="noopener noreferrer"
 							>
-								{language === "ar-LB" ? "افتحوا مسوّدة الرسالة" : `Open ${handoff.method} draft`} <ArrowUpRight aria-hidden="true" />
+								{language === "ar" ? "افتحوا مسوّدة الرسالة" : `Open ${handoff.method} draft`} <ArrowUpRight aria-hidden="true" />
 							</a>
 						)}
 						{Object.keys(errors).some(

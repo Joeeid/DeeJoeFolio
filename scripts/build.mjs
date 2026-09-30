@@ -23,7 +23,7 @@ if (!template.includes('<!--page-head-->') || !template.includes('<!--app-html--
 for (const page of [...pages, notFoundMeta, arabicNotFoundMeta]) {
   const target = resolve(output, page.noindex ? page.path.slice(1) : page.path.slice(1) + 'index.html');
   await mkdir(dirname(target), { recursive: true });
-  const html = template.replace('<html lang="en">', `<html lang="${page.language ?? 'en'}" dir="${page.language === 'ar-LB' ? 'rtl' : 'ltr'}">`).replace('<!--page-head-->', () => renderHead(page)).replace('<!--app-html-->', () => render(page.path));
+  const html = template.replace('<html lang="en">', `<html lang="${page.language ?? 'en'}" dir="${page.language === 'ar' ? 'rtl' : 'ltr'}">`).replace('<!--page-head-->', () => renderHead(page)).replace('<!--app-html-->', () => render(page.path));
   await writeFile(target, html);
 }
 const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + pages.filter(page => !page.noindex).map(page => `  <url><loc>${site.origin}${page.path}</loc>${alternatesFor(page).map(item => `<xhtml:link rel="alternate" hreflang="${item.language}" href="${site.origin}${item.path}"/>`).join('')}</url>`).join('\n') + '\n</urlset>\n';

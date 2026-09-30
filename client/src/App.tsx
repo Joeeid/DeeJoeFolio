@@ -28,7 +28,7 @@ export function AppContent() {
 		<Layout>
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/ar/" element={<Home language="ar-LB" />} />
+				<Route path="/ar/" element={<Home language="ar" />} />
 				{services.map((service) => (
 					<Route
 						key={service.path}
@@ -37,7 +37,7 @@ export function AppContent() {
 					/>
 				))}
 				<Route path="/experience" element={<ExperiencePage />} />
-				<Route path="/ar/experience/" element={<ExperiencePage language="ar-LB" />} />
+				<Route path="/ar/experience/" element={<ExperiencePage language="ar" />} />
 				<Route path="*" element={<NotFound language={pageForPath(location.pathname).language} />} />
 			</Routes>
 		</Layout>

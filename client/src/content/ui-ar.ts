@@ -178,5 +178,5 @@ const arabic: Record<string, string> = {
 };
 
 export function uiText(language: Language = "en") {
-  return (english: string) => language === "ar-LB" ? arabic[english] ?? english : english;
+  return (english: string) => language === "ar" ? arabic[english] ?? english : english;
 }

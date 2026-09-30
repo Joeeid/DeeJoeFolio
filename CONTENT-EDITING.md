@@ -59,14 +59,16 @@ After dependency changes, run `npm run check`, `npm test`, `npm run build`, `npm
 - `/weddings/` ↔ `/ar/weddings/`
 - `/private-events/` ↔ `/ar/private-events/`
 
-`englishPath` links each Arabic metadata entry to its English counterpart. `alternatesFor` in `site.ts` supplies both head and sitemap hreflang (`en`, `ar-LB`, English `x-default`). Each page remains self-canonical. Do not point Arabic canonicals at English pages. Home, Experience and both service pages have reciprocal equivalents. The header shows English | العربية on desktop and mobile, marks the current language, and preserves the current section hash when switching. Navigation, logo, breadcrumbs and booking links stay in the selected language via `localizedPath`; the URL preserves the choice across navigation and refresh.
+`englishPath` links each Arabic metadata entry to its English counterpart. `alternatesFor` in `site.ts` supplies both head and sitemap hreflang (`en`, `ar`, English `x-default`). Each page remains self-canonical. Do not point Arabic canonicals at English pages. Home, Experience and both service pages have reciprocal equivalents. The header shows English | العربية on desktop and mobile, marks the current language, and preserves the current section hash when switching. Navigation, logo, breadcrumbs and booking links stay in the selected language via `localizedPath`; the URL preserves the choice across navigation and refresh.
 
 Arabic UI text is in `client/src/content/ui-ar.ts`; English remains the default. Arabic booking messages, labels and errors are localized. The Arabic date field uses a native date input (the picker follows the browser/device locale); the English custom calendar is unchanged. Language switches are ordinary crawlable links, with no language-detection redirects.
 
-The build writes `lang="ar-LB" dir="rtl"` into production HTML; client metadata updates restore language, direction and alternates on navigation. JSON-LD uses `inLanguage` on WebPage and WebSite, with localized Service and BreadcrumbList text. Service is not a CreativeWork, so it does not receive an unsupported `inLanguage` property.
+The build writes `lang="ar" dir="rtl"` into production HTML; client metadata updates restore language, direction and alternates on navigation. JSON-LD uses `inLanguage` on WebPage and WebSite, with localized Service and BreadcrumbList text. Service is not a CreativeWork, so it does not receive an unsupported `inLanguage` property.
 
 Run `npm run check`, `npm test`, `npm run build`, and `npm run check:build` after edits. Build checks cover all four Arabic pages and English equivalents, schema references, all internal links and sitemap alternates. `npm test` uses Node's `--import tsx` loader to avoid the tsx CLI's unnecessary IPC socket in restricted environments.
 
 Review text and mix titles remain in their original language; third-party widgets control their own content and may retain provider UI wording. The Anghami embed requests Arabic controls on Arabic pages. Venue names, dates and factual history come from the shared English source.
 
 Localized noindex error pages are generated at `/404.html` and `/ar/404.html`, excluded from the sitemap. GitHub Pages uses the shared English 404 HTML for unknown URLs; the client renders Arabic for `/ar/...` failures without a hydration mismatch. Without JavaScript, an unknown URL can therefore display the host's English fallback.
+
+Arabic uses the region-neutral `ar` language tag in HTML, hreflang and JSON-LD while retaining Lebanese wording. Open Graph keeps `ar_LB` because its locale format requires a language and territory; this does not geographically restrict the Arabic pages.

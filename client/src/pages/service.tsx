@@ -9,7 +9,7 @@ import { ContactForm } from "@/components/contact-form";
 
 export function ServicePage({ service }: {service: Service}) {
   const t = uiText(service.language);
-  const arabic = service.language === "ar-LB";
+  const arabic = service.language === "ar";
   return <>
     <section className="shell service-hero"><div><nav className="breadcrumb" aria-label={t("Breadcrumb")}><a href={localizedPath("/", service.language)}>{t("Home")}</a> / <span aria-current="page">{service.label}</span></nav><p className="eyebrow">{service.eyebrow}</p><h1>{service.headline}</h1><p className="section-intro">{service.intro}</p><Button asChild className="button-primary"><a href="#contact">{t("Book Your Event")} <ArrowUpRight aria-hidden="true" /></a></Button></div><div className="service-hero-photo"><ResponsiveImage name={service.image} alt={service.imageAlt} sizes={imageSizes.service} priority /></div></section>
     <section className="shell section service-details" aria-label={service.serviceName}>{service.details.map((detail, index) => <article key={detail.title}><span className="eyebrow">0{index + 1}</span><h2>{detail.title}</h2><p>{detail.text}</p></article>)}</section>

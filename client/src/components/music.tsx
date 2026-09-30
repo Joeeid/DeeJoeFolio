@@ -64,7 +64,7 @@ export function Music({ language = "en" }: { language?: Language }) {
 					<h2>
 						{t("A little taste")}
 						<br />
-						{language !== "ar-LB" && "of "}<span>{t("my sound.")}</span>
+						{language !== "ar" && "of "}<span>{t("my sound.")}</span>
 					</h2>
 					<p className="section-intro">
 						{t("Arabic favourites. House grooves. Unexpected connections. Get to know the music before we make your night.")}
@@ -88,8 +88,8 @@ export function Music({ language = "en" }: { language?: Language }) {
 						{status !== "idle" && (
 							<iframe
 								key={attempt}
-								title={site.featuredMix.title + (language === "ar-LB" ? " على Anghami" : " on Anghami")}
-								src={language === "ar-LB" ? site.featuredMix.embedUrl.replace("lang=en", "lang=ar") : site.featuredMix.embedUrl}
+								title={site.featuredMix.title + (language === "ar" ? " على Anghami" : " on Anghami")}
+								src={language === "ar" ? site.featuredMix.embedUrl.replace("lang=en", "lang=ar") : site.featuredMix.embedUrl}
 								width="100%"
 								height="600"
 								scrolling="no"
@@ -111,7 +111,7 @@ export function Music({ language = "en" }: { language?: Language }) {
 						{t("Player not working?")}{" "}
 						<button type="button" onClick={retryPlayer}>
 							{t("Reload player")}
-						</button>{language === "ar-LB" ? " أو " : " or "}
+						</button>{language === "ar" ? " أو " : " or "}
 						<a
 							href={site.featuredMix.url}
 							target="_blank"

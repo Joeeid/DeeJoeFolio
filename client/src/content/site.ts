@@ -45,7 +45,7 @@ export const faqs: FAQ[] = [
 	},
 ];
 
-export type Language = "en" | "ar-LB";
+export type Language = "en" | "ar";
 
 export interface Service {
 	language?: Language;
@@ -334,14 +334,14 @@ export function alternatesFor(page: PageMeta) {
 	const arabic = [...arabicPages, ...arabicSitePages].find(item => item.englishPath === englishPath);
 	return arabic && !page.noindex ? [
 		{ language: "en", path: englishPath },
-		{ language: "ar-LB", path: arabic.path },
+		{ language: "ar", path: arabic.path },
 		{ language: "x-default", path: englishPath },
 	] : [];
 }
 
 // URLs carry the chosen language, including section anchors; no forced redirects.
 export function localizedPath(path: string, language: Language = "en") {
-  return language === "ar-LB" ? "/ar" + path : path;
+  return language === "ar" ? "/ar" + path : path;
 }
 
 export const notFoundMeta: PageMeta = {
@@ -352,7 +352,7 @@ export const notFoundMeta: PageMeta = {
 	noindex: true,
 };
 export const arabicNotFoundMeta: PageMeta = {
-  path: "/ar/404.html", language: "ar-LB", noindex: true,
+  path: "/ar/404.html", language: "ar", noindex: true,
   title: "الصفحة مش موجودة | DeeJoe",
   description: "هالصفحة مش موجودة. ارجعوا لخدمات DeeJoe والموسيقى ومعلومات التواصل.",
 };
@@ -395,7 +395,7 @@ export function structuredData(page: PageMeta) {
 				"@id": site.origin + "/#website",
 				url: site.origin + "/",
 				name: site.name,
-				inLanguage: ["en", "ar-LB"],
+				inLanguage: ["en", "ar"],
 				publisher: { "@id": person["@id"] },
 			},
 			{
@@ -411,7 +411,7 @@ export function structuredData(page: PageMeta) {
 							"@type": "Service",
 							"@id": site.origin + service.path + "#service",
 							name: service.serviceName,
-							serviceType: page.language === "ar-LB" ? service.serviceName : service.eventType === "wedding" ? "Wedding DJ" : "Private party and event DJ",
+							serviceType: page.language === "ar" ? service.serviceName : service.eventType === "wedding" ? "Wedding DJ" : "Private party and event DJ",
 							provider: { "@id": person["@id"] },
 							areaServed: { "@type": "Country", name: "Lebanon" },
 							url: site.origin + service.path,
@@ -421,7 +421,7 @@ export function structuredData(page: PageMeta) {
 							"@type": "BreadcrumbList",
 							"@id": site.origin + service.path + "#breadcrumb",
 							itemListElement: [
-								{ "@type": "ListItem", position: 1, name: page.language === "ar-LB" ? "الرئيسية" : "Home", item: site.origin + localizedPath("/", page.language) },
+								{ "@type": "ListItem", position: 1, name: page.language === "ar" ? "الرئيسية" : "Home", item: site.origin + localizedPath("/", page.language) },
 								{ "@type": "ListItem", position: 2, name: service.label, item: site.origin + service.path },
 							],
 						},

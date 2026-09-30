@@ -2,7 +2,7 @@ import { localizedPath, type Language } from "@/content/site";
 import { uiText } from "@/content/ui-ar";
 import { ArrowUpRight } from "lucide-react";
 export default function NotFound({ language = "en" }: { language?: Language }) {
- const arabic = language === "ar-LB";
+ const arabic = language === "ar";
  const t = uiText(language);
 	return (
 		<section className="shell not-found">

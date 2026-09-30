@@ -26,7 +26,7 @@ test('service entities and breadcrumbs agree with their page and visible content
     assert.deepEqual(entity?.areaServed, { '@type': 'Country', name: 'Lebanon' });
     const crumbs = graph.find(item => item['@type'] === 'BreadcrumbList')?.itemListElement;
     assert.deepEqual(crumbs.map((item: any) => [item.position, item.name, item.item]), [
-      [1, page.language === 'ar-LB' ? 'الرئيسية' : 'Home', site.origin + (page.language === "ar-LB" ? "/ar/" : "/")], [2, service.label, site.origin + page.path],
+      [1, page.language === 'ar' ? 'الرئيسية' : 'Home', site.origin + (page.language === "ar" ? "/ar/" : "/")], [2, service.label, site.origin + page.path],
     ]);
   }
 });
@@ -69,7 +69,7 @@ test('client navigation restores canonical and JSON-LD after a 404 without dupli
       updateMetadata(page);
       assert.equal(documentStub.title, page.title);
       assert.equal(documentStub.documentElement.lang, page.language ?? "en");
-      assert.equal(documentStub.documentElement.dir, page.language === "ar-LB" ? "rtl" : "ltr");
+      assert.equal(documentStub.documentElement.dir, page.language === "ar" ? "rtl" : "ltr");
       assert.equal(nodes.filter(node => node.hreflang).length, page.noindex ? 0 : 3);
       const canonicals = nodes.filter(node => node.rel === 'canonical');
       const scripts = nodes.filter(node => node.id === 'structured-data');
@@ -91,15 +91,15 @@ test('all public pages have reciprocal equivalents and Arabic routes resolve bef
   const { alternatesFor, pageForPath, localizedPath } = await import('../client/src/content/site');
   for (const path of ['/', '/weddings/', '/private-events/', '/experience/']) {
     const english = pageForPath(path);
-    const arabic = pageForPath(localizedPath(path, 'ar-LB'));
-    assert.equal(arabic.language, 'ar-LB');
+    const arabic = pageForPath(localizedPath(path, 'ar'));
+    assert.equal(arabic.language, 'ar');
     assert.equal(arabic.noindex, undefined);
     assert.deepEqual(alternatesFor(english), alternatesFor(arabic));
     assert.equal(alternatesFor(english).length, 3);
   }
-  assert.equal(localizedPath('/#reviews', 'ar-LB'), '/ar/#reviews');
+  assert.equal(localizedPath('/#reviews', 'ar'), '/ar/#reviews');
   assert.equal(pageForPath('/ar/experience').path, '/ar/experience/');
-  assert.equal(pageForPath('/ar/missing').language, 'ar-LB');
+  assert.equal(pageForPath('/ar/missing').language, 'ar');
   assert.equal(pageForPath('/ar/missing').noindex, true);
   assert.deepEqual(alternatesFor(pageForPath('/ar/missing')), []);
 });
