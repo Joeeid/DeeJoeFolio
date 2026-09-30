@@ -47,3 +47,9 @@ export const arabicPages: PageMeta[] = [
   { path: '/ar/weddings/', language: 'ar-LB', englishPath: '/weddings/', title: 'دي جي أعراس في لبنان | DJ عربي وعالمي | DeeJoe', description: 'عم تفتّشوا على DJ لعرسكن بلبنان؟ DeeJoe بيجمع الأغاني العربية والموسيقى العالمية بأسلوب Open Format. تعرّفوا على خبرته واحكوا معه عن تاريخكن وذوقكن.' },
   { path: '/ar/private-events/', language: 'ar-LB', englishPath: '/private-events/', title: 'دي جي حفلات خاصة في لبنان | خطوبات وأعياد ميلاد | DeeJoe', description: 'خطوبة، عيد ميلاد أو bachelor party بلبنان؟ DeeJoe دي جي حفلات خاصة بموسيقى عربية وعالمية على ذوقكن. شاركوه تفاصيل المناسبة للاستفسار عن التوفّر.' },
 ];
+
+// The same locale mapping also covers the home and experience pages.
+export const arabicSitePages: PageMeta[] = [
+  { path: '/ar/', language: 'ar-LB', englishPath: '/', title: 'دي جي في لبنان للأعراس والحفلات الخاصة | DeeJoe', description: 'تعرّفوا على DeeJoe، دي جي لبناني بأسلوب Open Format للأعراس والحفلات الخاصة. اسمعوا مزيج العربي والعالمي، شوفوا خبرته، واحكوا معه عن مناسبتكن.' },
+  { path: '/ar/experience/', language: 'ar-LB', englishPath: '/experience/', title: 'خبرة DeeJoe بالأعراس والسهرات في لبنان | أماكن ومناسبات', description: 'شوفوا خبرة DeeJoe بالأعراس وإقامات DJ بلبنان، من Aeon Lounge وAspen Lounge إلى Lotus Venue وJardin Des Lys، وتعرّفوا على أماكن عزفه.' },
+];

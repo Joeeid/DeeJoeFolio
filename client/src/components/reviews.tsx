@@ -1,13 +1,15 @@
+import { uiText } from "@/content/ui-ar";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { site } from "@/content/site";
+import { site, type Language } from "@/content/site";
 import { trackIntent } from "@/lib/analytics";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function ReviewsSkeleton() {
+function ReviewsSkeleton({ language = "en" }: { language?: Language }) {
+	const t = uiText(language);
 	return (
 		<div className="reviews-loading" role="status">
-			<span className="sr-only">Loading Google reviews…</span>
+			<span className="sr-only">{t("Loading Google reviews…")}</span>
 			<div aria-hidden="true">
 				<div className="reviews-loading-heading">
 					<div className="reviews-loading-heading-stars">
@@ -42,7 +44,8 @@ function ReviewsSkeleton() {
 	);
 }
 
-export function Reviews() {
+export function Reviews({ language = "en" }: { language?: Language }) {
+	const t = uiText(language);
 	const [status, setStatus] = useState<"loading" | "ready" | "failed">(
 		"loading",
 	);
@@ -142,25 +145,25 @@ export function Reviews() {
 			<div className="shell section">
 				<div className="section-heading">
 					<div>
-						<p className="eyebrow">FROM THE DANCE FLOOR</p>
+						<p className="eyebrow">{t("FROM THE DANCE FLOOR")}</p>
 						<h2>
-							Their night.
+							{t("Their night.")}
 							<br />
-							Their words.
+							{t("Their words.")}
 						</h2>
 					</div>
 					<p>
-						Hear from the people who've
+						{t("Hear from the people who've")}
 						<br />
-						shared a celebration with DeeJoe.
+						{t("shared a celebration with DeeJoe.")}
 					</p>
 				</div>
 				<div className="reviews-panel" data-status={status}>
-					{status === "loading" && <ReviewsSkeleton />}
+					{status === "loading" && <ReviewsSkeleton language={language} />}
 					<div
 						ref={widget}
 						className="reviews-widget"
-						aria-label="Google reviews"
+						aria-label={t("Google reviews")}
 						aria-busy={status === "loading"}
 						aria-hidden={status !== "ready"}
 					>
@@ -170,13 +173,12 @@ export function Reviews() {
 				<noscript>
 					<style>{".reviews-panel { display: none; }"}</style>
 					<p className="provider-note">
-						Read the reviews using the Google link below.
+						{t("Read the reviews using the Google link below.")}
 					</p>
 				</noscript>
 				{status === "failed" && (
 					<p role="status" className="provider-note">
-						The reviews couldn't load. You can still find them on
-						Google.
+						{t("The reviews couldn't load. You can still find them on Google.")}
 					</p>
 				)}
 				<a
@@ -185,7 +187,7 @@ export function Reviews() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					Find DeeJoe's reviews on Google{" "}
+					{t("Find DeeJoe's reviews on Google")}{" "}
 					<ArrowUpRight aria-hidden="true" />
 				</a>
 			</div>

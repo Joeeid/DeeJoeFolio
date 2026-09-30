@@ -1,7 +1,7 @@
 import { uiText } from "@/content/ui-ar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { pageForPath, alternatesFor } from "@/content/site";
+import { pageForPath, alternatesFor, localizedPath } from "@/content/site";
 import { Menu, ArrowUpRight, Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,18 +22,19 @@ const navigation = [
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	const [menuOpen, setMenuOpen] = useState(false);
-	const page = pageForPath(useLocation().pathname);
+	const location = useLocation();
+	// Fragments are absent from prerendered HTML; add them after hydration.
+	const [sectionHash, setSectionHash] = useState("");
+	useEffect(() => setSectionHash(location.hash), [location.hash]);
+	const page = pageForPath(location.pathname);
 	const arabic = page.language === "ar-LB";
 	const t = uiText(page.language);
-	const links = arabic ? [
-		{ href: "/ar/weddings/", label: "الأعراس" },
-		{ href: "/ar/private-events/", label: "الحفلات الخاصة" },
-		{ href: "/#music", label: "الموسيقى" },
-		{ href: "/experience/", label: "الخبرة (EN)" },
-	] : navigation;
-	const alternate = alternatesFor(page).find(item => item.language === (arabic ? "en" : "ar-LB"))?.path;
+	const links = navigation.map(item => ({ href: localizedPath(item.href, page.language), label: t(item.label) }));
+	const equivalents = alternatesFor(page);
+	const englishHref = (equivalents.find(item => item.language === "en")?.path ?? "/") + sectionHash;
+	const arabicHref = (equivalents.find(item => item.language === "ar-LB")?.path ?? "/ar/") + sectionHash;
 	const bookingHref = page.noindex
-		? "/#contact"
+		? localizedPath("/#contact", page.language)
 		: "#contact";
 	return (
 		<>
@@ -42,7 +43,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</a>
 			<header className="site-header">
 				<div className="shell header-inner">
-					<a dir="ltr" className="wordmark" href="/" aria-label={t("DeeJoe home")}>
+					<a dir="ltr" className="wordmark" href={localizedPath("/", page.language)} aria-label={t("DeeJoe home")}>
 						DEEJOE<span>.</span>
 					</a>
 					<nav aria-label={t("Main navigation")} className="desktop-nav">
@@ -52,7 +53,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 							</a>
 						))}
 					</nav>
-					{alternate && <a className="language-switch" href={alternate} hrefLang={arabic ? "en" : "ar-LB"} lang={arabic ? "en" : "ar-LB"} dir={arabic ? "ltr" : "rtl"}>{arabic ? "English" : "العربية"}</a>}
+					<nav className="language-switch" aria-label={arabic ? "اختيار اللغة" : "Choose language"} dir="ltr">
+						<a href={englishHref} hrefLang="en" lang="en" aria-current={!arabic ? "true" : undefined}>English</a>
+						<span aria-hidden="true">|</span>
+						<a href={arabicHref} hrefLang="ar-LB" lang="ar-LB" dir="rtl" aria-current={arabic ? "true" : undefined}>العربية</a>
+					</nav>
 					<Button asChild className="button-primary header-booking">
 						<a href={bookingHref}>
 							{t("Book Your Event")} <ArrowUpRight aria-hidden="true" />
@@ -104,7 +109,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</main>
 			<footer className="site-footer shell">
 				<div>
-					<a dir="ltr" className="wordmark" href="/">
+					<a dir="ltr" className="wordmark" href={localizedPath("/", page.language)}>
 						DEEJOE<span>.</span>
 					</a>
 					<p>{t("Bringing life to every beat.")}</p>

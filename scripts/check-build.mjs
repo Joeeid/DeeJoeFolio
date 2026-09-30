@@ -3,11 +3,11 @@ import { readFile, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../dist/public/', import.meta.url));
-const paths = ['/', '/weddings/', '/private-events/', '/experience/', '/ar/weddings/', '/ar/private-events/'];
+const paths = ['/', '/weddings/', '/private-events/', '/experience/', '/ar/weddings/', '/ar/private-events/', '/ar/', '/ar/experience/'];
 const titles = new Set();
 const descriptions = new Set();
-for (const path of [...paths, '/404.html']) {
-  const html = await readFile(resolve(root, path === '/404.html' ? '404.html' : path.slice(1) + 'index.html'), 'utf8');
+for (const path of [...paths, '/404.html', '/ar/404.html']) {
+  const html = await readFile(resolve(root, path.endsWith('404.html') ? path.slice(1) : path.slice(1) + 'index.html'), 'utf8');
   const arabic = path.startsWith('/ar/');
   assert.ok(html.includes(`<html lang="${arabic ? 'ar-LB' : 'en'}" dir="${arabic ? 'rtl' : 'ltr'}">`), `HTML language/direction: ${path}`);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1];
@@ -27,7 +27,7 @@ for (const path of [...paths, '/404.html']) {
     await access(resolve(root, new URL(image).pathname.slice(1)));
     assert.ok(html.includes(`${attribute}="${prefix}:image:alt"`));
   }
-  if (path === '/404.html') {
+  if (path.endsWith('404.html')) {
     assert.ok(html.includes('noindex, follow')); assert.ok(!html.includes('rel="canonical"'));
     assert.ok(!html.includes('location.replace'));
   } else {
@@ -47,6 +47,12 @@ for (const path of [...paths, '/404.html']) {
     }
     assert.equal(webpage.inLanguage, arabic ? 'ar-LB' : 'en');
     assert.ok(html.includes(`property="og:locale" content="${arabic ? 'ar_LB' : 'en_US'}"`));
+    const englishPath = path.replace(/^\/ar/, '');
+    for (const [language, alternate] of [['en', englishPath], ['ar-LB', '/ar' + englishPath], ['x-default', englishPath]]) {
+      assert.ok(html.includes(`rel="alternate" hreflang="${language}" href="https://www.deejoelb.com${alternate}"`), `Alternate: ${path} → ${language}`);
+    }
+    assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, 3);
+    assert.ok(html.includes(`href="${arabic ? englishPath : '/ar' + path}"`));
     if (/\/(weddings|private-events)\/$/.test(path)) {
       const service = data['@graph'].find(item => item['@type'] === 'Service');
       assert.equal(service.url, webpage.url);
@@ -56,12 +62,6 @@ for (const path of [...paths, '/404.html']) {
       assert.equal(webpage.breadcrumb['@id'], breadcrumb['@id']);
       assert.equal(breadcrumb.itemListElement[0].name, arabic ? 'الرئيسية' : 'Home');
       assert.equal(breadcrumb.itemListElement[1].item, webpage.url);
-      const englishPath = path.replace(/^\/ar/, '');
-      for (const [language, alternate] of [['en', englishPath], ['ar-LB', '/ar' + englishPath], ['x-default', englishPath]]) {
-        assert.ok(html.includes(`rel="alternate" hreflang="${language}" href="https://www.deejoelb.com${alternate}"`), `Alternate: ${path} → ${language}`);
-      }
-      assert.equal((html.match(/rel="alternate" hreflang=/g) || []).length, 3);
-      assert.ok(html.includes(`href="${arabic ? englishPath : '/ar' + path}"`));
       if (arabic) {
         assert.match(title, /[\u0600-\u06ff]/);
         assert.match(description, /[\u0600-\u06ff]/);
@@ -87,6 +87,9 @@ for (const path of [...paths, '/404.html']) {
   for (const match of html.matchAll(/href="((?:\/|#)[^"]*)"/g)) {
     const url = new URL(match[1].replace(/&amp;/g, '&'), 'https://www.deejoelb.com' + path);
     if (url.pathname.startsWith('/assets/')) continue;
+    if (arabic && !match[0].includes('href="' + (path.endsWith('404.html') ? '/' : path.replace(/^\/ar/, '')) + '"')) {
+      assert.ok(url.pathname.startsWith('/ar/'), `Arabic link leaves locale: ${path} → ${url.pathname}`);
+    }
     const relative = url.pathname.replace(/^\//, '');
     const target = resolve(root, url.pathname.endsWith('.html') ? relative : (relative ? relative.replace(/\/?$/, '/') : '') + 'index.html');
     const targetHtml = await readFile(target, 'utf8');
@@ -99,7 +102,6 @@ assert.deepEqual(locations.sort(), paths.map(path => 'https://www.deejoelb.com' 
 assert.ok(sitemap.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'));
 for (const entry of sitemap.matchAll(/<url>(.*?)<\/url>/gs)) {
   const path = new URL(entry[1].match(/<loc>(.*?)<\/loc>/)[1]).pathname;
-  if (!/\/(weddings|private-events)\/$/.test(path)) continue;
   const englishPath = path.replace(/^\/ar/, '');
   for (const [lang, alternate] of [['en', englishPath], ['ar-LB', '/ar' + englishPath], ['x-default', englishPath]]) {
     assert.ok(entry[1].includes(`<xhtml:link rel="alternate" hreflang="${lang}" href="https://www.deejoelb.com${alternate}"/>`));
